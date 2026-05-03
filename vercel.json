@@ -1,0 +1,18 @@
+{
+  "buildCommand": "node build-gallery.mjs",
+  "outputDirectory": ".",
+  "headers": [
+    {
+      "source": "/gallery/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/shield.jpg",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
