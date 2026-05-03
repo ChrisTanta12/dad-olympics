@@ -814,10 +814,14 @@ function TweakButton({ label, children, onClick, secondary = false }) {
 const EVENT_DATE = new Date('2026-09-25T17:00:00+13:00');
 
 const PAST_CHAMPIONS = [
-  { year: 'MMXXII',  yearArabic: 2022, name: 'BROWNIE',           tag: 'Inaugural Champion · 1st Title' },
-  { year: 'MMXXIII', yearArabic: 2023, name: 'BROWNIE & TINLING', tag: 'Joint Champions · Tie Unbroken' },
-  { year: 'MMXXIV',  yearArabic: 2024, name: 'BROWNIE',           tag: 'Defended · Drift Trikes Sweep' },
-  { year: 'MMXXV',   yearArabic: 2025, name: 'BROWNIE',           tag: 'Three-peat · Reigning Champion' },
+  { year: 'MMXXII',  yearArabic: 2022, name: 'BROWNIE',           tag: 'Inaugural Champion · 1st Title',
+    image: 'gallery/2022/288653682_5304412496285011_1700123388722095873_n.jpg' },
+  { year: 'MMXXIII', yearArabic: 2023, name: 'BROWNIE & TINLING', tag: 'Joint Champions · Tie Unbroken',
+    image: null /* TODO: Nick + Chris Hero */ },
+  { year: 'MMXXIV',  yearArabic: 2024, name: 'BROWNIE',           tag: 'Defended · Drift Trikes Sweep',
+    image: null },
+  { year: 'MMXXV',   yearArabic: 2025, name: 'BROWNIE',           tag: 'Three-peat · Reigning Champion',
+    image: 'gallery/2025/drift-trikes-podium.jpg' },
 ];
 
 const REIGNING = PAST_CHAMPIONS[PAST_CHAMPIONS.length - 1];
@@ -887,16 +891,17 @@ window.DAD = {
        shield: SVG placeholder shield
        ============================================================ -->
   <script type="text/babel">
-const Shield = ({ size = 520 }) => {
-  const h = size * 1.18;
+const Shield = ({ size = 520, fill = false }) => {
+  const style = fill
+    ? { width: '100%', aspectRatio: '1 / 0.75' }
+    : { width: size, height: size * 1.18 };
   return (
     <div style={{
-      width: size,
-      height: h,
+      ...style,
       position: 'relative',
       overflow: 'hidden',
-      borderRadius: 4,
-      boxShadow: '0 30px 60px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4)',
+      borderRadius: 6,
+      boxShadow: '0 30px 80px rgba(0,0,0,0.65), 0 4px 14px rgba(0,0,0,0.45)',
     }}>
       <img
         src="shield.jpg"
@@ -912,7 +917,7 @@ const Shield = ({ size = 520 }) => {
       />
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.45) 100%)',
+        background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)',
         pointerEvents: 'none',
       }}/>
     </div>
@@ -1321,10 +1326,17 @@ const ChampionsReel = ({ transition, onComplete, onSkip }) => {
     return () => clearInterval(tick);
   }, [i]);
 
-  const slideBg = (slide, idx) => {
+  const slideStyle = (slide, idx) => {
+    if (slide.image) {
+      return {
+        backgroundImage: `url("${encodeURI(slide.image)}")`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      };
+    }
     const hues = [12, 34, 196, 22, 354, 48, 18, 220, 2];
     const h = hues[idx % hues.length];
-    return `linear-gradient(135deg, hsl(${h}, 25%, 18%), hsl(${h}, 18%, 8%))`;
+    return { background: `linear-gradient(135deg, hsl(${h}, 25%, 18%), hsl(${h}, 18%, 8%))` };
   };
 
   const transitionStyle = {
@@ -1369,7 +1381,7 @@ const ChampionsReel = ({ transition, onComplete, onSkip }) => {
             <div
               className="reel-photo"
               style={{
-                background: slideBg(s, idx),
+                ...slideStyle(s, idx),
                 animation: idx === i ? 'kenburns 3.2s ease-out both' : 'none',
               }}
             />
@@ -1609,7 +1621,7 @@ const Home = ({ onNavigate }) => {
         background: 'radial-gradient(ellipse at 80% 20%, rgba(212,175,55,0.10) 0%, rgba(0,0,0,0) 50%)',
       }}>
         <div className="container-wide">
-          <div style={{display:'grid', gridTemplateColumns: '1.4fr 1fr', gap: 64, alignItems:'center'}}>
+          <div style={{display:'grid', gridTemplateColumns: '1fr 1.2fr', gap: 56, alignItems:'center'}}>
             <div className="flex col gap-24">
               <div style={{display:'flex', gap: 16, alignItems:'center'}}>
                 <Chyron>EDITION V · MMXXVI</Chyron>
@@ -1632,8 +1644,8 @@ const Home = ({ onNavigate }) => {
                 </button>
               </div>
             </div>
-            <div className="shield-stage" style={{justifySelf:'end'}}>
-              <Shield size={340}/>
+            <div className="shield-stage" style={{width:'100%'}}>
+              <Shield fill/>
             </div>
           </div>
         </div>
