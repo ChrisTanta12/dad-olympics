@@ -459,6 +459,72 @@ table.history-table {
   outline-offset: 2px;
 }
 
+/* ----- hero CTA: ENTER HERE ----- */
+.btn-hero {
+  padding: 26px 56px;
+  font-size: 28px;
+  letter-spacing: 0.32em;
+  border-width: 2px;
+  background: rgba(212, 175, 55, 0.06);
+  position: relative;
+  isolation: isolate;
+  animation: hero-pulse 2.4s ease-out infinite;
+  box-shadow:
+    0 0 0 0 rgba(212, 175, 55, 0.55),
+    0 16px 50px rgba(0, 0, 0, 0.55),
+    inset 0 0 24px rgba(212, 175, 55, 0.05);
+}
+.btn-hero::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    rgba(255, 230, 160, 0.0) 35%,
+    rgba(255, 230, 160, 0.35) 50%,
+    rgba(255, 230, 160, 0.0) 65%,
+    transparent 100%);
+  background-size: 220% 100%;
+  animation: hero-shimmer 3.8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+  mix-blend-mode: screen;
+}
+.btn-hero .arrow { font-size: 26px; }
+.btn-hero:hover {
+  animation-play-state: paused;
+  box-shadow:
+    0 0 0 0 rgba(212, 175, 55, 0),
+    0 22px 60px rgba(0, 0, 0, 0.6);
+}
+@keyframes hero-pulse {
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(212, 175, 55, 0.55),
+      0 16px 50px rgba(0, 0, 0, 0.55),
+      inset 0 0 24px rgba(212, 175, 55, 0.05);
+  }
+  70% {
+    box-shadow:
+      0 0 0 22px rgba(212, 175, 55, 0),
+      0 16px 50px rgba(0, 0, 0, 0.55),
+      inset 0 0 24px rgba(212, 175, 55, 0.05);
+  }
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(212, 175, 55, 0),
+      0 16px 50px rgba(0, 0, 0, 0.55),
+      inset 0 0 24px rgba(212, 175, 55, 0.05);
+  }
+}
+@keyframes hero-shimmer {
+  0%   { background-position: 200% 0%; opacity: 0; }
+  20%  { opacity: 1; }
+  60%  { background-position: -100% 0%; opacity: 1; }
+  100% { background-position: -100% 0%; opacity: 0; }
+}
+
 /* ----- konami toast ----- */
 .toast {
   position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
@@ -1099,12 +1165,13 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
         The annual contest of legends returns. Nine events. Three days.
         One shield. <span style={{color:'var(--fg)'}}>Defend it, or watch it walk.</span>
       </p>
-      <div style={{display:'flex', gap: 16, marginTop: 8, flexWrap:'wrap'}}>
-        <button className="btn" onClick={onEnter} style={{borderColor: goldHue, color: goldHue}}>
+      <div style={{display:'flex', marginTop: 8}}>
+        <button
+          className="btn btn-hero"
+          onClick={onEnter}
+          style={{borderColor: goldHue, color: goldHue}}
+        >
           ENTER HERE <span className="arrow">→</span>
-        </button>
-        <button className="btn btn-ghost">
-          WATCH HIGHLIGHTS
         </button>
       </div>
     </div>
@@ -1126,11 +1193,14 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
           }}>
             The annual contest of legends returns. <span style={{color:'var(--fg)'}}>Defend the shield, or watch it walk.</span>
           </p>
-          <div style={{display:'flex', gap: 16, marginTop: 8}}>
-            <button className="btn" onClick={onEnter} style={{borderColor: goldHue, color: goldHue}}>
+          <div style={{display:'flex', marginTop: 12, justifyContent:'center'}}>
+            <button
+              className="btn btn-hero"
+              onClick={onEnter}
+              style={{borderColor: goldHue, color: goldHue}}
+            >
               ENTER HERE <span className="arrow">→</span>
             </button>
-            <button className="btn btn-ghost">WATCH HIGHLIGHTS</button>
           </div>
         </div>
       </div>
@@ -1227,12 +1297,13 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
           <div className="eyebrow" style={{textShadow: '0 1px 4px rgba(0,0,0,0.9)'}}>
             EDITION V · MMXXVI · 25–27 SEPT · LOCATION TBC
           </div>
-          <div style={{display:'flex', gap: 16, marginTop: 4, flexWrap:'wrap', justifyContent:'center'}}>
-            <button className="btn" onClick={onEnter} style={{borderColor: goldHue, color: goldHue, backdropFilter:'blur(2px)'}}>
+          <div style={{display:'flex', marginTop: 12, justifyContent:'center'}}>
+            <button
+              className="btn btn-hero"
+              onClick={onEnter}
+              style={{borderColor: goldHue, color: goldHue, backdropFilter:'blur(2px)'}}
+            >
               ENTER HERE <span className="arrow">→</span>
-            </button>
-            <button className="btn btn-ghost" style={{backdropFilter:'blur(2px)'}}>
-              WATCH HIGHLIGHTS
             </button>
           </div>
         </div>
