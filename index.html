@@ -543,13 +543,18 @@ table.history-table {
   .sched-row > :nth-child(3),
   .sched-row > :nth-child(4) { grid-column: 2; text-align: left !important; }
   .history-table { display: block; overflow-x: auto; white-space: nowrap; }
+  .history-table th, .history-table td { padding: 10px 8px; }
+  .history-table td span.mono { display: block; margin-left: 0 !important; margin-top: 4px; }
+  body { padding-bottom: 84px; }
   .topnav { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
-  .topnav-links { gap: 16px; letter-spacing: 0.18em; }
+  .topnav-links { gap: 12px 16px; letter-spacing: 0.18em; flex-wrap: wrap; }
+  .topnav-links a { white-space: nowrap; }
   .topnav-meta { display: none; }
   .reel-caption { left: 24px; bottom: 48px; right: 24px; }
   .reel-bar { padding: 0 16px; }
   .btn-hero { padding: 20px 36px; font-size: 22px; }
   .container, .container-wide { padding: 0 16px; }
+  .wordmark { font-size: clamp(40px, 15vw, 320px) !important; }
 }
 
 /* ----- mobile "add photos" floating button ----- */
@@ -1244,7 +1249,7 @@ window.Footer = Footer;
   <script type="text/babel">
 const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
   const wordmarkOf = (size) => (
-    <div className="display" style={{
+    <div className="display wordmark" style={{
       fontFamily: headlineFont,
       fontSize: size,
       lineHeight: 0.82,
@@ -1256,7 +1261,7 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
       <div style={{color: goldHue}}>OLYMPICS</div>
     </div>
   );
-  const wordmark = wordmarkOf('clamp(72px, 14vw, 220px)');
+  const wordmark = wordmarkOf('clamp(48px, 14vw, 220px)');
 
   const meta = (
     <div className="flex col gap-16">
@@ -1413,7 +1418,7 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
           padding: '0 16px',
         }}>
           <Chyron>LIVE · COUNTDOWN ACTIVE</Chyron>
-          {wordmarkOf('clamp(120px, 22vw, 320px)')}
+          {wordmarkOf('clamp(56px, 20vw, 320px)')}
           <div className="eyebrow" style={{textShadow: '0 1px 4px rgba(0,0,0,0.9)'}}>
             EDITION V · MMXXVI · 25–27 SEPT · LOCATION TBC
           </div>
@@ -1937,7 +1942,7 @@ const Events = ({ onNavigate }) => {
       <section style={{padding: '64px 0 32px'}}>
         <div className="container-wide">
           <div className="eyebrow">II / V · THE EVENTS</div>
-          <div className="display" style={{fontSize: 'clamp(80px, 12vw, 200px)', marginTop: 16}}>
+          <div className="display" style={{fontSize: 'clamp(48px, 12vw, 200px)', marginTop: 16}}>
             THE <span style={{color:'var(--gold)'}}>SCHEDULE</span>.
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
@@ -2011,7 +2016,7 @@ const Scoreboards = () => {
       <div className="flex between" style={{alignItems:'flex-end', marginBottom: 24, flexWrap:'wrap', gap: 16}}>
         <div>
           <div className="eyebrow">THE SCOREBOARDS · EVENT BY EVENT</div>
-          <div className="display" style={{fontSize: 56, marginTop: 8}}>PICK A YEAR. RELIVE THE PAIN.</div>
+          <div className="display" style={{fontSize: 'clamp(32px, 5vw, 56px)', marginTop: 8}}>PICK A YEAR. RELIVE THE PAIN.</div>
         </div>
         <div style={{display:'flex', flexWrap:'wrap', gap: 8}}>
           {boards.map(b => (
@@ -2101,7 +2106,7 @@ const History = () => {
       <section style={{padding: '64px 0 32px'}}>
         <div className="container-wide">
           <div className="eyebrow">III / V · HISTORY</div>
-          <div className="display" style={{fontSize: 'clamp(80px, 12vw, 200px)', marginTop: 16}}>
+          <div className="display" style={{fontSize: 'clamp(48px, 12vw, 200px)', marginTop: 16}}>
             THE <span style={{color:'var(--gold)'}}>RECORD</span>.
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
@@ -2149,12 +2154,12 @@ const History = () => {
       <Scoreboards/>
 
       <section className="container-wide" style={{padding: '64px 28px'}}>
-        <div className="flex between" style={{alignItems:'flex-end', marginBottom: 24}}>
+        <div className="flex between" style={{alignItems:'flex-end', marginBottom: 24, flexWrap:'wrap', gap: 16}}>
           <div>
             <div className="eyebrow">ALL-TIME MEDAL TABLE</div>
-            <div className="display" style={{fontSize: 56, marginTop: 8}}>WHO'S BEEN ON THE PODIUM.</div>
+            <div className="display" style={{fontSize: 'clamp(32px, 5vw, 56px)', marginTop: 8}}>WHO'S BEEN ON THE PODIUM.</div>
           </div>
-          <div className="flex gap-8">
+          <div className="flex gap-8" style={{flexWrap:'wrap'}}>
             {['gold', 'silver', 'bronze', 'total', 'name'].map(k => (
               <button key={k} onClick={() => setSortKey(k)} style={{
                 background: sortKey === k ? 'var(--gold)' : 'transparent',
@@ -2216,7 +2221,7 @@ const History = () => {
       }}>
         <div className="container-wide">
           <div className="eyebrow" style={{color:'#D04040'}}>IV · HALL OF SHAME</div>
-          <div className="display" style={{fontSize: 'clamp(56px, 8vw, 112px)', marginTop: 12}}>
+          <div className="display" style={{fontSize: 'clamp(36px, 8vw, 112px)', marginTop: 12}}>
             A COMPLETE & <span style={{color:'#D04040'}}>INDEFENSIBLE</span> RECORD.
           </div>
           <p style={{fontSize: 16, color:'var(--fg-dim)', maxWidth: 640, marginTop: 16}}>
@@ -2290,7 +2295,7 @@ const Gallery = () => {
       <section style={{padding: '64px 0 32px'}}>
         <div className="container-wide">
           <div className="eyebrow">IV / V · GALLERY</div>
-          <div className="display" style={{fontSize: 'clamp(80px, 12vw, 200px)', marginTop: 16}}>
+          <div className="display" style={{fontSize: 'clamp(48px, 12vw, 200px)', marginTop: 16}}>
             THE <span style={{color:'var(--gold)'}}>EVIDENCE</span>.
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
