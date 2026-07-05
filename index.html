@@ -941,12 +941,16 @@ const EVENT_DATE = new Date('2026-09-25T17:00:00+12:00');
 // Shared Google Drive folder the boys upload their photos into
 const PHOTO_DROP_URL = 'https://drive.google.com/drive/folders/1RiC3LKhENH6OAUgA1mdYMcgsI_W6mAEM';
 
+// Apps Script web-app URL for direct in-page uploads (see drive-upload.gs).
+// Leave empty to fall back to opening the Drive folder link.
+const PHOTO_UPLOAD_ENDPOINT = '';
+
 const PAST_CHAMPIONS = [
-  { year: 'MMXXII',  yearArabic: 2022, name: 'BROWNIE',           tag: 'Inaugural Champion · 1st Title',
+  { year: 'MMXXII',  yearArabic: 2022, name: 'BROWNIE',           tag: 'The First One · Canberra',
     image: 'gallery/2022/288653682_5304412496285011_1700123388722095873_n.jpg' },
   { year: 'MMXXIII', yearArabic: 2023, name: 'BROWNIE & TINLING', tag: 'Joint Champions · Tie Unbroken',
     image: 'gallery/2023/nick-chris-hero.jpg' },
-  { year: 'MMXXIV',  yearArabic: 2024, name: 'BROWNIE',           tag: 'Defended · Drift Trikes Sweep',
+  { year: 'MMXXIV',  yearArabic: 2024, name: 'BROWNIE',           tag: 'Defended · Won On A Tie-Break',
     image: 'gallery/2024/champ-topgolf-salute.jpg' },
   { year: 'MMXXV',   yearArabic: 2025, name: 'BROWNIE',           tag: 'Three-peat · Reigning Champion',
     image: 'gallery/2025/685724543_2149667969164280_1255204253080552396_n.jpg' },
@@ -1067,7 +1071,8 @@ const HALL_OF_SHAME = [
 ];
 
 window.DAD = {
-  EVENT_DATE, PHOTO_DROP_URL, PAST_CHAMPIONS, REIGNING, EVENTS, HISTORY, MEDAL_TABLE, HALL_OF_SHAME, SCOREBOARDS
+  EVENT_DATE, PHOTO_DROP_URL, PHOTO_UPLOAD_ENDPOINT,
+  PAST_CHAMPIONS, REIGNING, EVENTS, HISTORY, MEDAL_TABLE, HALL_OF_SHAME, SCOREBOARDS
 };
   </script>
 
@@ -1142,6 +1147,7 @@ const TopNav = ({ current, onNavigate }) => {
           href={window.DAD.PHOTO_DROP_URL}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={photoDropClick}
           style={{color: 'var(--gold)'}}
         >Add Photos ↗</a>
       </nav>
@@ -1194,6 +1200,80 @@ const Chyron = ({ children }) => (
   </span>
 );
 
+// Global photo-drop: when PHOTO_UPLOAD_ENDPOINT is set, "Add Photos" opens
+// the phone's photo picker and uploads straight to the Drive folder.
+// Without it, links fall back to opening the Drive folder page.
+const photoDropClick = (e) => {
+  if (window.DAD.PHOTO_UPLOAD_ENDPOINT && window.openPhotoDrop) {
+    e.preventDefault();
+    window.openPhotoDrop();
+  }
+};
+
+const PhotoDrop = () => {
+  const endpoint = window.DAD.PHOTO_UPLOAD_ENDPOINT;
+  const inputRef = React.useRef(null);
+  const [prog, setProg] = React.useState(null);
+
+  React.useEffect(() => {
+    window.openPhotoDrop = () => inputRef.current && inputRef.current.click();
+    return () => { delete window.openPhotoDrop; };
+  }, []);
+
+  if (!endpoint) return null;
+
+  const onFiles = async (e) => {
+    const files = [...e.target.files];
+    if (!files.length) return;
+    let done = 0, failed = 0;
+    setProg({ done, failed, total: files.length });
+    for (const f of files) {
+      try {
+        const b64 = await new Promise((res, rej) => {
+          const r = new FileReader();
+          r.onload = () => res(String(r.result).split(',')[1]);
+          r.onerror = rej;
+          r.readAsDataURL(f);
+        });
+        const resp = await fetch(endpoint, {
+          method: 'POST',
+          body: JSON.stringify({ name: f.name, mimeType: f.type, data: b64 }),
+        });
+        const j = await resp.json();
+        if (!j.ok) throw new Error(j.error);
+      } catch (err) {
+        failed++;
+      }
+      done++;
+      setProg({ done, failed, total: files.length });
+    }
+    e.target.value = '';
+    setTimeout(() => setProg(null), 5000);
+  };
+
+  return (
+    <>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        style={{display:'none'}}
+        onChange={onFiles}
+      />
+      {prog && (
+        <div className="toast">
+          {prog.done < prog.total
+            ? `◆ SENDING ${prog.done + 1} / ${prog.total}…`
+            : prog.failed
+              ? `◆ ${prog.total - prog.failed} IN · ${prog.failed} FAILED — GIVE IT ANOTHER GO`
+              : `◆ ${prog.total} PHOTO${prog.total > 1 ? 'S' : ''} IN. THE RECORD GROWS.`}
+        </div>
+      )}
+    </>
+  );
+};
+
 const Footer = () => (
   <footer style={{
     borderTop: '1px solid var(--line)',
@@ -1241,6 +1321,8 @@ window.TopNav = TopNav;
 window.Marquee = Marquee;
 window.Chyron = Chyron;
 window.Footer = Footer;
+window.PhotoDrop = PhotoDrop;
+window.photoDropClick = photoDropClick;
   </script>
 
   <!-- ============================================================
@@ -1617,7 +1699,7 @@ const ChampionsReel = ({ transition, onComplete, onSkip }) => {
           PRESS ESC OR CLICK SKIP TO ENTER
         </div>
         <div className="mono" style={{fontSize: 11, letterSpacing:'0.24em', color: 'var(--gold)'}}>
-          {i === slides.length - 1 ? 'ENTERING ARENA…' : 'NEXT TAPE QUEUED'}
+          {i === slides.length - 1 ? 'RIGHT, IN WE GO…' : 'NEXT TAPE QUEUED'}
         </div>
       </div>
     </div>
@@ -1648,7 +1730,7 @@ const useCountdown = (target) => {
 const Countdown = () => {
   const { days, hours, mins, secs } = useCountdown(window.DAD.EVENT_DATE);
   const cells = [
-    { num: String(days).padStart(3, '0'), lbl: 'Days' },
+    { num: String(days), lbl: 'Days' },
     { num: String(hours).padStart(2, '0'), lbl: 'Hours' },
     { num: String(mins).padStart(2, '0'), lbl: 'Minutes' },
     { num: String(secs).padStart(2, '0'), lbl: 'Seconds' },
@@ -1857,7 +1939,7 @@ const Home = ({ onNavigate }) => {
 
       <section className="container-wide" style={{padding: '32px 28px'}}>
         <div className="flex between" style={{alignItems:'flex-end', marginBottom: 16}}>
-          <div className="eyebrow">T-MINUS · OPENING CEREMONY</div>
+          <div className="eyebrow">T-MINUS · KICK-OFF</div>
           <div className="eyebrow-muted">FRI 25 SEPT 2026 · 17:00 NZST</div>
         </div>
         <Countdown/>
@@ -1879,7 +1961,7 @@ const Home = ({ onNavigate }) => {
           <div>
             <div className="eyebrow">THE EVENTS</div>
             <div className="display" style={{fontSize: 'clamp(48px, 6vw, 88px)', marginTop: 8}}>
-              NINE DISCIPLINES.<br/>ONE SHIELD.
+              NINE EVENTS.<br/>ONE SHIELD.
             </div>
           </div>
           <button className="btn btn-ghost" onClick={() => onNavigate('events')}>
@@ -2308,6 +2390,7 @@ const Gallery = () => {
               href={window.DAD.PHOTO_DROP_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={window.photoDropClick}
             >
               ADD YOUR PHOTOS <span className="arrow">→</span>
             </a>
@@ -2502,10 +2585,13 @@ const App = () => {
           href={window.DAD.PHOTO_DROP_URL}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={window.photoDropClick}
         >
           + ADD PHOTOS
         </a>
       )}
+
+      <PhotoDrop/>
 
       <TweaksPanel title="Tweaks">
         <TweakSection label="Hero">
