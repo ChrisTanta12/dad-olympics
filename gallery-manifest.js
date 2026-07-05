@@ -42,45 +42,45 @@ window.GALLERY = {
   "2024": [
     {
       "file": "20240921_145110.jpg",
-      "caption": "BEER OLYMPICS · 2024"
+      "caption": "TASTING FLIGHT · 2024"
     },
     {
       "file": "IMG-20240921-WA0006.jpeg",
-      "caption": "MATCH DAY · 2024"
+      "caption": "PUB GOLF · THE COURSE"
     },
     {
       "file": "IMG-20240921-WA0007.jpeg",
-      "caption": "MATCH DAY · 2024"
+      "caption": "PUB GOLF · RULES & PENALTIES"
     },
     {
       "file": "IMG-20240921-WA0010.jpeg",
-      "caption": "MATCH DAY · 2024"
+      "caption": "MID RANGE · PRO SERIES"
     }
   ],
   "2025": [
     {
       "file": "533251130_800782689011988_288374663152854540_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "DARTS · 2025"
     },
     {
       "file": "679991313_799936166530288_8013210291246706217_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "SOMBRERO SESSION · 2025"
     },
     {
       "file": "683470080_1290906005799599_2862683464075386034_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "TASTING FLIGHT · 2025"
     },
     {
       "file": "684202887_995327029844712_2782361927940386372_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "PUB GOLF · NICK'S CARD"
     },
     {
       "file": "685902866_938666442380854_607208713218830561_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "TOPGOLF · UNDER LIGHTS"
     },
     {
       "file": "686920876_1306078737537335_5191454605545000473_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "OFFICIAL TEAM KIT"
     },
     {
       "file": "drift-trikes-podium.jpg",

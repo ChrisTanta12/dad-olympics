@@ -7,6 +7,21 @@ const ROOT = 'gallery';
 const OUT = 'gallery-manifest.js';
 const VALID = /\.(jpe?g|png|webp|avif|gif)$/i;
 
+// Hand-written captions for photos whose filenames tell us nothing.
+// Key is "<year>/<filename>"; anything not listed falls back to deriveCaption().
+const CAPTIONS = {
+  '2024/IMG-20240921-WA0006.jpeg': 'PUB GOLF · THE COURSE',
+  '2024/IMG-20240921-WA0007.jpeg': 'PUB GOLF · RULES & PENALTIES',
+  '2024/IMG-20240921-WA0010.jpeg': 'MID RANGE · PRO SERIES',
+  '2024/20240921_145110.jpg': 'TASTING FLIGHT · 2024',
+  '2025/533251130_800782689011988_288374663152854540_n.jpg': 'DARTS · 2025',
+  '2025/679991313_799936166530288_8013210291246706217_n.jpg': 'SOMBRERO SESSION · 2025',
+  '2025/683470080_1290906005799599_2862683464075386034_n.jpg': 'TASTING FLIGHT · 2025',
+  '2025/684202887_995327029844712_2782361927940386372_n.jpg': "PUB GOLF · NICK'S CARD",
+  '2025/685902866_938666442380854_607208713218830561_n.jpg': 'TOPGOLF · UNDER LIGHTS',
+  '2025/686920876_1306078737537335_5191454605545000473_n.jpg': 'OFFICIAL TEAM KIT',
+};
+
 const yearDirs = (await readdir(ROOT, { withFileTypes: true }))
   .filter(d => d.isDirectory() && /^\d{4}$/.test(d.name))
   .map(d => d.name)
@@ -19,7 +34,10 @@ for (const year of yearDirs) {
   const files = (await readdir(join(ROOT, year)))
     .filter(f => VALID.test(f))
     .sort();
-  manifest[year] = files.map(f => ({ file: f, caption: deriveCaption(f, year) }));
+  manifest[year] = files.map(f => ({
+    file: f,
+    caption: CAPTIONS[`${year}/${f}`] || deriveCaption(f, year),
+  }));
   total += files.length;
 }
 
