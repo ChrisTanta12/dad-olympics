@@ -916,25 +916,25 @@ const REIGNING = PAST_CHAMPIONS[PAST_CHAMPIONS.length - 1];
 // "break seal" reveals are decoys — the real lineup lives nowhere near this file.
 const EVENTS = [
   { num: 'I',    name: 'NICE TRY',        discipline: 'Still Sealed',   day: 'Fri PM',  classified: true,
-    blurb: 'The commissioner admires the curiosity. Event I is revealed at the opening ceremony and not a minute before.' },
+    blurb: "Love the enthusiasm. You'll find out Friday night with everyone else." },
   { num: 'II',   name: 'STILL NO',        discipline: 'Still Sealed',   day: 'Sat AM',  classified: true,
-    blurb: 'All you get: it starts early, and hamstrings are officially on notice.' },
-  { num: 'III',  name: 'PATIENCE',        discipline: 'Still Sealed',   day: 'Sat AM',  classified: true,
-    blurb: 'Rumours that equipment is involved can be neither confirmed nor denied.' },
+    blurb: "All you're getting: early start, hamstrings on notice." },
+  { num: 'III',  name: 'MATE.',           discipline: 'Still Sealed',   day: 'Sat AM',  classified: true,
+    blurb: 'There may or may not be equipment involved. Moving on.' },
   { num: 'IV',   name: 'ABSOLUTELY NOT',  discipline: 'Still Sealed',   day: 'Sat PM',  classified: true,
-    blurb: 'Event IV is known to exactly one person, and he is enjoying this.' },
+    blurb: "Event IV is known to exactly one person and he's loving it." },
   { num: 'V',    name: 'SEALED SHUT',     discipline: 'Still Sealed',   day: 'Sat PM',  classified: true,
-    blurb: 'Bring an appetite. That is not a clue. Or is it.' },
+    blurb: "Bring an appetite. Not a clue. Or is it." },
   { num: 'VI',   name: 'GO TO BED',       discipline: 'Still Sealed',   day: 'Sat Late', classified: true,
-    blurb: 'Late-night slot. Past entries: lawn darts, karaoke, an ill-advised piñata. This year: sealed.' },
+    blurb: 'Late-night slot. Previous years: lawn darts, karaoke, the piñata we agreed not to talk about.' },
   { num: 'VII',  name: 'HUNGOVER?',       discipline: 'Still Sealed',   day: 'Sun AM',  classified: true,
-    blurb: 'Sunday morning. Draw your own conclusions. Details at the briefing.' },
+    blurb: 'Sunday morning, straight after Saturday night. Do the maths.' },
   { num: 'VIII', name: 'ONE MORE SLEEP',  discipline: 'Still Sealed',   day: 'Sun PM',  classified: true,
-    blurb: 'The penultimate event. Points scaled by participation. Participation is not optional.' },
+    blurb: "Second-to-last event. You get points for showing up. Not showing up isn't a thing." },
   { num: 'IX',   name: 'THE DECIDER',     discipline: 'Still Sealed',   day: 'Sun PM',  classified: true,
-    blurb: 'Tradition says it always involves running. Tradition has been wrong before.' },
+    blurb: "Tradition says it always involves running. Tradition has been wrong before." },
   { num: 'X',    name: 'CLOSING CEREMONY', discipline: 'Ritual',        day: 'Sun PM',  classified: false,
-    blurb: 'Engraving of the shield. Wooden spoon awarded. Speeches encouraged but mocked.' },
+    blurb: 'Shield gets engraved, spoon gets handed over, speeches get heckled.' },
 ];
 
 const HISTORY = [
@@ -1105,13 +1105,14 @@ const Footer = () => (
         <div className="eyebrow-muted" style={{marginTop: 12}}>Est. MMXXII · Defend the shield, or watch it walk.</div>
       </div>
       <div className="flex col gap-8" style={{textAlign:'right'}}>
-        <div className="eyebrow">RSVP · CAPTAINS ONLY</div>
-        <a href="mailto:rsvp@dadolympics.co.nz" style={{
+        <div className="eyebrow">RSVP · YOU KNOW WHERE</div>
+        <div style={{
           fontFamily: 'Anton, sans-serif',
           fontSize: 22,
           letterSpacing: '0.18em',
           color: 'var(--gold)',
-        }}>RSVP@DADOLYMPICS.CO.NZ</a>
+          textTransform: 'uppercase',
+        }}>The group chat. As always.</div>
         <div className="mono" style={{fontSize: 11, color: 'var(--muted)', letterSpacing:'0.22em'}}>
           MMXXVI · 25–27 SEPT · NEW ZEALAND
         </div>
@@ -1129,7 +1130,7 @@ const Footer = () => (
       textTransform: 'uppercase',
     }}>
       <span>© MMXXVI · A COMPLETE AND INDEFENSIBLE RECORD</span>
-      <span>BUILT FOR THE BROTHERS · NOT FOR THE BRAND</span>
+      <span>MADE BY A DAD · WELL PAST HIS BEDTIME</span>
     </div>
   </footer>
 );
@@ -1184,8 +1185,8 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
         margin: 0,
         textWrap: 'pretty',
       }}>
-        The annual contest of legends returns. Nine events. Three days.
-        One shield. <span style={{color:'var(--fg)'}}>Defend it, or watch it walk.</span>
+        It's on again. Nine events, three days, one shield.
+        <span style={{color:'var(--fg)'}}> Brownie's got it. Go and take it off him.</span>
       </p>
       <div style={{display:'flex', marginTop: 8}}>
         <button
@@ -1213,7 +1214,7 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
             fontSize: 16, color:'var(--fg-dim)', maxWidth: 560, margin: 0,
             textWrap: 'pretty',
           }}>
-            The annual contest of legends returns. <span style={{color:'var(--fg)'}}>Defend the shield, or watch it walk.</span>
+            It's back on. <span style={{color:'var(--fg)'}}>Defend the shield, or watch it walk.</span>
           </p>
           <div style={{display:'flex', marginTop: 12, justifyContent:'center'}}>
             <button
@@ -1381,8 +1382,8 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
         gap: 16,
         flexWrap: 'wrap',
       }}>
-        <span>FORTITUDO · FRATERNITAS · CARNIS</span>
-        <span>The annual contest of legends returns.</span>
+        <span>NO TRAINING · NO TACTICS · NO SHAME</span>
+        <span>One weekend a year. Matters more than it should.</span>
         <span>Champion: <span style={{color:'var(--gold)'}}>{window.DAD.REIGNING.name}</span></span>
       </div>
     </div>
@@ -1606,7 +1607,7 @@ const ReigningChampion = () => {
             </div>
             <div>
               <div className="eyebrow-muted">DEFENDING</div>
-              <div className="display" style={{fontSize: 36, marginTop: 4}}>YES</div>
+              <div className="display" style={{fontSize: 36, marginTop: 4}}>UNFORTUNATELY</div>
             </div>
             <div>
               <div className="eyebrow-muted">SIGNATURE EVENT</div>
@@ -1735,8 +1736,8 @@ const Home = ({ onNavigate }) => {
                 <span style={{color:'var(--gold)'}}>EDITION</span>
               </div>
               <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 540, margin: 0, textWrap:'pretty'}}>
-                Nine events. Three days. Four contenders, one shield.
-                The annual contest returns — Brownie defending a three-peat.
+                Nine events. Three days. Four blokes, one shield.
+                Brownie's going for four in a row. Surely not.
               </p>
               <div style={{display:'flex', gap: 12}}>
                 <button className="btn" onClick={() => onNavigate('events')}>
@@ -1765,10 +1766,10 @@ const Home = ({ onNavigate }) => {
       <Marquee items={[
         'DEFEND THE SHIELD OR WATCH IT WALK',
         'ENGRAVING SCHEDULED · SUN 17:30',
-        'WOODEN SPOON STILL UNCLAIMED',
-        'LOCATION · CLASSIFIED',
-        'NINE SEALED ENVELOPES · ZERO LEAKS',
-        'CHAMPIONS REEL ON LOOP IN THE LOUNGE',
+        'WOODEN SPOON · CURRENTLY HOMELESS',
+        'LOCATION · STOP ASKING',
+        'THE EVENTS · SEALED · ALSO STOP ASKING',
+        'BYO EXCUSES',
       ]}/>
 
       <ReigningChampion/>
@@ -1809,8 +1810,7 @@ const Home = ({ onNavigate }) => {
             <div className="eyebrow-muted">— TRADITIONAL · SAID EVERY YEAR · MEANT EVERY YEAR</div>
             <div className="rule-tight"/>
             <div className="mono" style={{fontSize: 12, color:'var(--fg-dim)', letterSpacing:'0.18em', textTransform:'uppercase'}}>
-              The shield has been defended {' '}
-              <span style={{color:'var(--gold)'}}>3 times</span> in 4 editions.
+              Four editions. <span style={{color:'var(--gold)'}}>Brownie's name is on all of them.</span> Do something about it.
             </div>
           </div>
         </div>
@@ -1846,9 +1846,9 @@ const Events = ({ onNavigate }) => {
             THE <span style={{color:'var(--gold)'}}>RULES</span>.
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
-            Nine disciplines plus the closing ceremony, scored from 10 down to 1 by finishing position.
-            Tied finishes split points. Refusal to compete = 0. Wooden spoon to lowest aggregate.
-            This year every seal stays intact until the opening ceremony — venue, events, all of it.
+            Nine events plus the closing ceremony. Points from 10 down to 1 by where you finish,
+            ties split the points, pull out and you get nothing. Lowest total takes the spoon home.
+            And this year the whole thing's a surprise — venue, events, all of it. You'll know when you need to know.
           </p>
         </div>
       </section>
@@ -1945,7 +1945,7 @@ const History = () => {
             THE <span style={{color:'var(--gold)'}}>RECORD</span>.
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
-            Four editions. Two champions. Every plate engraved is a fact you can't argue with.
+            Four years. Two champions. If your name's not on the shield, that's a you problem.
           </p>
         </div>
       </section>
@@ -2058,7 +2058,7 @@ const History = () => {
             A COMPLETE & <span style={{color:'#D04040'}}>INDEFENSIBLE</span> RECORD.
           </div>
           <p style={{fontSize: 16, color:'var(--fg-dim)', maxWidth: 640, marginTop: 16}}>
-            Dropped catches. Burnt briskets. Forfeited rounds. Every disgrace, preserved for posterity.
+            Dropped catches, burnt snags, the strawpedo incident. Nothing gets forgotten around here.
           </p>
           <div style={{
             marginTop: 32,
@@ -2106,7 +2106,7 @@ const Gallery = () => {
         year: y,
         id: `${y}-empty`,
         empty: true,
-        caption: `NO PHOTOS ON FILE · ${y}`,
+        caption: `NO PHOTOS FROM ${y} · CONVENIENT`,
         tall: false,
         wide: false,
       }];
@@ -2132,7 +2132,8 @@ const Gallery = () => {
             THE <span style={{color:'var(--gold)'}}>EVIDENCE</span>.
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
-            Drop new photos into <span className="mono" style={{color:'var(--gold)'}}>/gallery/&lt;year&gt;/</span> and they appear here. No CMS. No nonsense.
+            Every year, documented, whether you like it or not.
+            Got photos? <span style={{color:'var(--fg)'}}>Hand them over — the record must be complete.</span>
           </p>
         </div>
       </section>
