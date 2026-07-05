@@ -544,6 +544,32 @@ table.history-table {
   .container, .container-wide { padding: 0 16px; }
 }
 
+/* ----- mobile "add photos" floating button ----- */
+.fab-upload { display: none; }
+@media (max-width: 860px) {
+  .fab-upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 18px;
+    z-index: 800;
+    background: var(--gold);
+    color: #0a0a0e;
+    font-family: 'Anton', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 14px 26px;
+    border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4);
+    white-space: nowrap;
+  }
+  .fab-upload:active { transform: translateX(-50%) translateY(1px); }
+}
+
 /* ----- konami toast ----- */
 .toast {
   position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
@@ -899,6 +925,9 @@ function TweakButton({ label, children, onClick, secondary = false }) {
 // NZ daylight saving starts Sun 27 Sept 2026, so Friday kick-off is still NZST (+12:00)
 const EVENT_DATE = new Date('2026-09-25T17:00:00+12:00');
 
+// Shared Google Drive folder the boys upload their photos into
+const PHOTO_DROP_URL = 'https://drive.google.com/drive/folders/1RiC3LKhENH6OAUgA1mdYMcgsI_W6mAEM';
+
 const PAST_CHAMPIONS = [
   { year: 'MMXXII',  yearArabic: 2022, name: 'BROWNIE',           tag: 'Inaugural Champion · 1st Title',
     image: 'gallery/2022/288653682_5304412496285011_1700123388722095873_n.jpg' },
@@ -971,7 +1000,7 @@ const HALL_OF_SHAME = [
 ];
 
 window.DAD = {
-  EVENT_DATE, PAST_CHAMPIONS, REIGNING, EVENTS, HISTORY, MEDAL_TABLE, HALL_OF_SHAME
+  EVENT_DATE, PHOTO_DROP_URL, PAST_CHAMPIONS, REIGNING, EVENTS, HISTORY, MEDAL_TABLE, HALL_OF_SHAME
 };
   </script>
 
@@ -1042,6 +1071,12 @@ const TopNav = ({ current, onNavigate }) => {
             href="#"
           >{it.label}</a>
         ))}
+        <a
+          href={window.DAD.PHOTO_DROP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{color: 'var(--gold)'}}
+        >Add Photos ↗</a>
       </nav>
       <div className="topnav-meta">
         MMXXVI · 25–27 SEPT · LOCATION TBC
@@ -2138,7 +2173,7 @@ const Gallery = () => {
           <div style={{marginTop: 24}}>
             <a
               className="btn"
-              href="https://drive.google.com/drive/folders/1RiC3LKhENH6OAUgA1mdYMcgsI_W6mAEM"
+              href={window.DAD.PHOTO_DROP_URL}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -2328,6 +2363,17 @@ const App = () => {
       {route === 'gallery' && <Gallery/>}
 
       {showNav && <Footer/>}
+
+      {showNav && (
+        <a
+          className="fab-upload"
+          href={window.DAD.PHOTO_DROP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          + ADD PHOTOS
+        </a>
+      )}
 
       <TweaksPanel title="Tweaks">
         <TweakSection label="Hero">
