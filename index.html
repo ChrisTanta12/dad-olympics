@@ -2133,8 +2133,18 @@ const Gallery = () => {
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
             Every year, documented, whether you like it or not.
-            Got photos? <span style={{color:'var(--fg)'}}>Hand them over — the record must be complete.</span>
+            <span style={{color:'var(--fg)'}}> Got photos on your phone? Chuck them in here — the record must be complete.</span>
           </p>
+          <div style={{marginTop: 24}}>
+            <a
+              className="btn"
+              href="https://drive.google.com/drive/folders/1RiC3LKhENH6OAUgA1mdYMcgsI_W6mAEM"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ADD YOUR PHOTOS <span className="arrow">→</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -2207,9 +2217,11 @@ const Gallery = () => {
               {!t.empty && (
                 <div style={{
                   position:'absolute', bottom: 8, right: 10,
+                  maxWidth: '68%',
+                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                   fontFamily:'JetBrains Mono, monospace',
                   fontSize: 9, letterSpacing:'0.24em', color:'var(--fg-dim)',
-                  textTransform:'uppercase',
+                  textTransform:'uppercase', textAlign: 'right',
                   textShadow: '0 1px 2px rgba(0,0,0,0.8)',
                 }}>
                   {t.caption}
