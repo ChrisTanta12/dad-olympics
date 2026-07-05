@@ -1648,7 +1648,7 @@ const useCountdown = (target) => {
 const Countdown = () => {
   const { days, hours, mins, secs } = useCountdown(window.DAD.EVENT_DATE);
   const cells = [
-    { num: String(days).padStart(3, '0'), lbl: 'Days' },
+    { num: String(days), lbl: 'Days' },
     { num: String(hours).padStart(2, '0'), lbl: 'Hours' },
     { num: String(mins).padStart(2, '0'), lbl: 'Minutes' },
     { num: String(secs).padStart(2, '0'), lbl: 'Seconds' },
