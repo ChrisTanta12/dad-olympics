@@ -19,8 +19,8 @@
   --bg-2: #16161E;
   --bg-3: #1F1F2A;
   --fg: #E8E4D8;
-  --fg-dim: #B6B2A6;
-  --muted: #6B6A60;
+  --fg-dim: #C9C5B8;
+  --muted: #979484;
   --line: rgba(212, 175, 55, 0.22);
   --line-strong: rgba(212, 175, 55, 0.55);
   --gold: #D4AF37;
@@ -72,16 +72,16 @@ body::before {
 .eyebrow {
   font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.32em;
+  font-size: 12px;
+  letter-spacing: 0.24em;
   color: var(--gold);
 }
 
 .eyebrow-muted {
   font-family: 'JetBrains Mono', monospace;
   text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.32em;
+  font-size: 12px;
+  letter-spacing: 0.24em;
   color: var(--muted);
 }
 
@@ -156,8 +156,8 @@ a { color: inherit; text-decoration: none; }
 .topnav-links {
   display: flex; gap: 28px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.28em;
+  font-size: 12px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 .topnav-links a {
@@ -174,8 +174,8 @@ a { color: inherit; text-decoration: none; }
 }
 .topnav-meta {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.24em;
+  font-size: 11px;
+  letter-spacing: 0.2em;
   color: var(--muted);
   text-transform: uppercase;
 }
@@ -184,8 +184,8 @@ a { color: inherit; text-decoration: none; }
 .chyron {
   display: inline-flex; align-items: center; gap: 12px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.32em;
+  font-size: 11px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--fg-dim);
 }
@@ -250,8 +250,8 @@ a { color: inherit; text-decoration: none; }
 }
 .countdown-cell .lbl {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.32em;
+  font-size: 11px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--muted);
   margin-top: 8px;
@@ -308,8 +308,8 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   color: var(--muted);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.32em;
+  font-size: 11px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   text-align: center;
   padding: 16px;
@@ -341,17 +341,25 @@ a { color: inherit; text-decoration: none; }
   transition: opacity .8s ease;
 }
 .reel-slide.active { opacity: 1; }
-.reel-photo {
-  position: absolute; inset: 0;
+/* blurred cover backdrop fills the frame; the photo itself sits on top
+   uncropped (contain) so the whole shot is visible */
+.reel-photo-blur {
+  position: absolute; inset: -24px;
   background-size: cover;
   background-position: center;
+  filter: blur(28px) brightness(0.45) saturate(0.8);
+}
+.reel-photo {
+  position: absolute; inset: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   filter: contrast(1.05) saturate(0.9);
-  transform: scale(1.05);
   animation: kenburns 6s ease-out both;
 }
 @keyframes kenburns {
-  0%   { transform: scale(1.0) translate(0, 0); }
-  100% { transform: scale(1.12) translate(-2%, -1%); }
+  0%   { transform: scale(1.0); }
+  100% { transform: scale(1.04); }
 }
 .reel-vignette {
   position: absolute; inset: 0;
@@ -443,8 +451,8 @@ table.history-table {
 }
 .history-table th {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.28em;
+  font-size: 11px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted);
   font-weight: 400;
@@ -934,9 +942,9 @@ const PAST_CHAMPIONS = [
   { year: 'MMXXIII', yearArabic: 2023, name: 'BROWNIE & TINLING', tag: 'Joint Champions · Tie Unbroken',
     image: 'gallery/2023/nick-chris-hero.jpg' },
   { year: 'MMXXIV',  yearArabic: 2024, name: 'BROWNIE',           tag: 'Defended · Drift Trikes Sweep',
-    image: 'gallery/2024/20240921_145110.jpg' },
+    image: 'gallery/2024/champ-topgolf-salute.jpg' },
   { year: 'MMXXV',   yearArabic: 2025, name: 'BROWNIE',           tag: 'Three-peat · Reigning Champion',
-    image: 'gallery/2025/champ-2025-portrait.jpg' },
+    image: 'gallery/2025/685724543_2149667969164280_1255204253080552396_n.jpg' },
 ];
 
 const REIGNING = PAST_CHAMPIONS[PAST_CHAMPIONS.length - 1];
@@ -962,8 +970,6 @@ const EVENTS = [
     blurb: "Second-to-last event. You get points for showing up. Not showing up isn't a thing." },
   { num: 'IX',   name: 'THE DECIDER',     discipline: 'Still Sealed',   day: 'Sun PM',  classified: true,
     blurb: "Tradition says it always involves running. Tradition has been wrong before." },
-  { num: 'X',    name: 'CLOSING CEREMONY', discipline: 'Ritual',        day: 'Sun PM',  classified: false,
-    blurb: 'Shield gets engraved, spoon gets handed over, speeches get heckled.' },
 ];
 
 const HISTORY = [
@@ -1099,8 +1105,8 @@ const Marquee = ({ items }) => (
       whiteSpace: 'nowrap',
       animation: 'marquee 38s linear infinite',
       fontFamily: 'JetBrains Mono, monospace',
-      fontSize: 11,
-      letterSpacing: '0.32em',
+      fontSize: 12,
+      letterSpacing: '0.24em',
       textTransform: 'uppercase',
       color: 'var(--fg-dim)',
     }}>
@@ -1159,8 +1165,8 @@ const Footer = () => (
       borderTop: '1px solid var(--line)',
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: 10,
-      letterSpacing: '0.28em',
+      fontSize: 11,
+      letterSpacing: '0.2em',
       color: 'var(--muted)',
       textTransform: 'uppercase',
     }}>
@@ -1410,8 +1416,8 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
         display: 'flex',
         justifyContent: 'space-between',
         fontFamily: 'JetBrains Mono, monospace',
-        fontSize: 10,
-        letterSpacing: '0.32em',
+        fontSize: 11,
+        letterSpacing: '0.22em',
         textTransform: 'uppercase',
         color: 'var(--muted)',
         gap: 16,
@@ -1457,11 +1463,8 @@ const ChampionsReel = ({ transition, onComplete, onSkip }) => {
 
   const slideStyle = (slide, idx) => {
     if (slide.image) {
-      return {
-        backgroundImage: `url("${encodeURI(slide.image)}")`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      };
+      // sizing comes from the CSS classes: blur layer covers, photo layer contains
+      return { backgroundImage: `url("${encodeURI(slide.image)}")` };
     }
     const hues = [12, 34, 196, 22, 354, 48, 18, 220, 2];
     const h = hues[idx % hues.length];
@@ -1482,7 +1485,7 @@ const ChampionsReel = ({ transition, onComplete, onSkip }) => {
           <span className="pulse"></span>
           <span>CHAMPION'S REEL · TAPE {String(i + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span>
         </div>
-        <div className="mono" style={{fontSize: 10, letterSpacing:'0.32em', color: 'var(--muted)'}}>
+        <div className="mono" style={{fontSize: 11, letterSpacing:'0.24em', color: 'var(--muted)'}}>
           DAD OLYMPICS · A COMPLETE AND INDEFENSIBLE RECORD
         </div>
         <button onClick={onSkip} style={{
@@ -1490,8 +1493,8 @@ const ChampionsReel = ({ transition, onComplete, onSkip }) => {
           border: '1px solid rgba(232,228,216,0.2)',
           color: 'var(--fg-dim)',
           fontFamily: 'JetBrains Mono, monospace',
-          fontSize: 10,
-          letterSpacing: '0.28em',
+          fontSize: 11,
+          letterSpacing: '0.22em',
           textTransform: 'uppercase',
           padding: '8px 14px',
           cursor: 'pointer',
@@ -1507,6 +1510,7 @@ const ChampionsReel = ({ transition, onComplete, onSkip }) => {
             className={'reel-slide' + (idx === i ? ' active' : '')}
             style={transitionStyle}
           >
+            <div className="reel-photo-blur" style={slideStyle(s, idx)}/>
             <div
               className="reel-photo"
               style={{
@@ -1548,10 +1552,10 @@ const ChampionsReel = ({ transition, onComplete, onSkip }) => {
       </div>
 
       <div className="reel-bar bottom">
-        <div className="mono" style={{fontSize: 10, letterSpacing:'0.32em', color: 'var(--muted)'}}>
+        <div className="mono" style={{fontSize: 11, letterSpacing:'0.24em', color: 'var(--muted)'}}>
           PRESS ESC OR CLICK SKIP TO ENTER
         </div>
-        <div className="mono" style={{fontSize: 10, letterSpacing:'0.32em', color: 'var(--gold)'}}>
+        <div className="mono" style={{fontSize: 11, letterSpacing:'0.24em', color: 'var(--gold)'}}>
           {i === slides.length - 1 ? 'ENTERING ARENA…' : 'NEXT TAPE QUEUED'}
         </div>
       </div>
@@ -1684,7 +1688,7 @@ const ReigningChampion = () => {
           <div style={{
             position:'absolute', bottom: 16, left: 16,
             fontFamily: 'JetBrains Mono, monospace',
-            fontSize: 10, letterSpacing: '0.28em', color: 'var(--gold)',
+            fontSize: 11, letterSpacing: '0.22em', color: 'var(--gold)',
             textTransform: 'uppercase',
           }}>
             CHAMP · MMXXV
@@ -1736,8 +1740,8 @@ const EventCard = ({ ev, idx, onMystery }) => {
           border: '1px solid var(--gold)',
           color: 'var(--gold)',
           fontFamily: 'JetBrains Mono, monospace',
-          fontSize: 10,
-          letterSpacing: '0.28em',
+          fontSize: 11,
+          letterSpacing: '0.22em',
           padding: '8px 12px',
           textTransform: 'uppercase',
           cursor: 'pointer',
@@ -1800,7 +1804,7 @@ const Home = ({ onNavigate }) => {
 
       <Marquee items={[
         'DEFEND THE SHIELD OR WATCH IT WALK',
-        'ENGRAVING SCHEDULED · SUN 17:30',
+        'SHIELD BUFFED · AWAITING A NEW NAME',
         'WOODEN SPOON · CURRENTLY HOMELESS',
         'LOCATION · STOP ASKING',
         'THE EVENTS · SEALED · ALSO STOP ASKING',
@@ -1878,40 +1882,16 @@ const Events = ({ onNavigate }) => {
         <div className="container-wide">
           <div className="eyebrow">II / V · THE EVENTS</div>
           <div className="display" style={{fontSize: 'clamp(80px, 12vw, 200px)', marginTop: 16}}>
-            THE <span style={{color:'var(--gold)'}}>RULES</span>.
+            THE <span style={{color:'var(--gold)'}}>SCHEDULE</span>.
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
-            Nine events plus the closing ceremony. Points from 10 down to 1 by where you finish,
-            ties split the points, pull out and you get nothing. Lowest total takes the spoon home.
-            And this year the whole thing's a surprise — venue, events, all of it. You'll know when you need to know.
+            Nine events over three days, and every one of them is sealed —
+            venue, events, rules, all of it. You'll know when you're standing in front of it.
           </p>
         </div>
       </section>
 
-      <section style={{borderTop:'1px solid var(--line)', borderBottom:'1px solid var(--line)', padding: '32px 0', background:'rgba(0,0,0,0.3)'}}>
-        <div className="container-wide grid-2col" style={{display:'grid', gridTemplateColumns:'auto 1fr', gap: 48, alignItems:'center'}}>
-          <div className="eyebrow">SCORING</div>
-          <div style={{display:'flex', gap: 4, flexWrap:'wrap'}}>
-            {[10,9,8,7,6,5,4,3,2,1].map((p, i) => (
-              <div key={p} style={{
-                display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-                width: 56, height: 56,
-                border: i < 3 ? '1px solid var(--gold)' : '1px solid var(--line)',
-                color: i < 3 ? 'var(--gold)' : 'var(--fg-dim)',
-                fontFamily:'Anton, sans-serif',
-                fontSize: 22,
-              }}>
-                {p}
-                <div style={{fontFamily:'JetBrains Mono, monospace', fontSize: 8, letterSpacing:'0.2em', color:'var(--muted)'}}>
-                  {i === 0 ? 'WIN' : i === 1 ? '2ND' : i === 2 ? '3RD' : `${i+1}TH`}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="container-wide" style={{padding: '64px 28px'}}>
+      <section className="container-wide" style={{padding: '32px 28px 64px'}}>
         {days.map(day => {
           const dayEvents = events.filter(e => e.day === day.id);
           if (!dayEvents.length) return null;
@@ -2034,8 +2014,8 @@ const History = () => {
                 color: sortKey === k ? '#0a0a0e' : 'var(--fg-dim)',
                 border: '1px solid var(--line)',
                 fontFamily: 'JetBrains Mono, monospace',
-                fontSize: 10,
-                letterSpacing:'0.24em',
+                fontSize: 11,
+                letterSpacing:'0.2em',
                 textTransform:'uppercase',
                 padding: '8px 12px',
                 cursor:'pointer',
@@ -2237,27 +2217,27 @@ const Gallery = () => {
               )}
               <div style={{
                 position:'absolute', inset: 0,
-                background: 'linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%)',
+                background: 'linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.85) 100%)',
                 pointerEvents: 'none',
               }}/>
               <div style={{
                 position:'absolute', bottom: 8, left: 10,
                 fontFamily:'JetBrains Mono, monospace',
-                fontSize: 10, letterSpacing:'0.24em', color:'var(--gold)',
+                fontSize: 11, letterSpacing:'0.18em', color:'var(--gold)',
                 textTransform:'uppercase',
-                textShadow: '0 1px 2px rgba(0,0,0,0.8)',
+                textShadow: '0 1px 3px rgba(0,0,0,0.9)',
               }}>
                 {t.year}
               </div>
               {!t.empty && (
                 <div style={{
                   position:'absolute', bottom: 8, right: 10,
-                  maxWidth: '68%',
+                  maxWidth: '65%',
                   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                   fontFamily:'JetBrains Mono, monospace',
-                  fontSize: 9, letterSpacing:'0.24em', color:'var(--fg-dim)',
+                  fontSize: 11, letterSpacing:'0.14em', color:'var(--fg)',
                   textTransform:'uppercase', textAlign: 'right',
-                  textShadow: '0 1px 2px rgba(0,0,0,0.8)',
+                  textShadow: '0 1px 3px rgba(0,0,0,0.9)',
                 }}>
                   {t.caption}
                 </div>
