@@ -912,26 +912,28 @@ const PAST_CHAMPIONS = [
 
 const REIGNING = PAST_CHAMPIONS[PAST_CHAMPIONS.length - 1];
 
+// MMXXVI: every event is sealed until the opening ceremony. Even the
+// "break seal" reveals are decoys — the real lineup lives nowhere near this file.
 const EVENTS = [
-  { num: 'I',    name: 'OPENING BOWLS',       discipline: 'Lawn / Beach Bowls',      day: 'Fri PM',  classified: false,
-    blurb: 'Doubles bracket. Closest to the jack. The traditional opener — winners get first dibs on bunks.' },
-  { num: 'II',   name: 'SAND SPRINT',         discipline: 'Track · 100m',           day: 'Sat AM',  classified: false,
-    blurb: 'Hundred metres on wet sand at low tide. Spikes prohibited. Drop-out clause for hamstrings.' },
-  { num: 'III',  name: 'BEACH CRICKET',       discipline: 'Cricket · Tape Ball',     day: 'Sat AM',  classified: false,
-    blurb: 'Six-a-side. One hand one bounce off the bach. Auto-out if the ball goes in the surf.' },
-  { num: 'IV',   name: 'CORNHOLE INVITATIONAL', discipline: 'Cornhole · Singles',  day: 'Sat PM',  classified: false,
-    blurb: 'Round-robin into knockout. Bag swap permitted between rounds.' },
-  { num: 'V',    name: 'BBQ-OFF',             discipline: 'Culinary · Mains',        day: 'Sat PM',  classified: false,
-    blurb: 'Single protein, blind tasting, partners and kids judge. Sauces are weapons; use them well.' },
-  { num: 'VI',   name: '[CLASSIFIED]',         discipline: 'TBD',                    day: 'Sat Late', classified: true,
-    blurb: 'Briefing at 21:00 in the lounge. Rules sealed in an envelope until then. Past entries: lawn darts, karaoke, beer pong, an ill-advised pinata.' },
-  { num: 'VII',  name: 'BREAKFAST RELAY',      discipline: 'Cooking · Team',         day: 'Sun AM',  classified: false,
-    blurb: 'Four-leg relay: bacon, eggs, hash, plate. Hangovers count against you. Inspected by partners.' },
-  { num: 'VIII', name: 'DRINKING GAMES BLOCK', discipline: 'Mixed · Singles + Doubles', day: 'Sun PM', classified: false,
-    blurb: 'Four-game block. Flip cup, beer pong, slap cup, kings. Points scaled by participation.' },
-  { num: 'IX',   name: '[CLASSIFIED]',         discipline: 'TBD',                    day: 'Sun PM',  classified: true,
-    blurb: 'Decided by the reigning champion. Tradition: it always involves running.' },
-  { num: 'X',    name: 'CLOSING CEREMONY',     discipline: 'Ritual',                  day: 'Sun PM',  classified: false,
+  { num: 'I',    name: 'NICE TRY',        discipline: 'Still Sealed',   day: 'Fri PM',  classified: true,
+    blurb: 'The commissioner admires the curiosity. Event I is revealed at the opening ceremony and not a minute before.' },
+  { num: 'II',   name: 'STILL NO',        discipline: 'Still Sealed',   day: 'Sat AM',  classified: true,
+    blurb: 'All you get: it starts early, and hamstrings are officially on notice.' },
+  { num: 'III',  name: 'PATIENCE',        discipline: 'Still Sealed',   day: 'Sat AM',  classified: true,
+    blurb: 'Rumours that equipment is involved can be neither confirmed nor denied.' },
+  { num: 'IV',   name: 'ABSOLUTELY NOT',  discipline: 'Still Sealed',   day: 'Sat PM',  classified: true,
+    blurb: 'Event IV is known to exactly one person, and he is enjoying this.' },
+  { num: 'V',    name: 'SEALED SHUT',     discipline: 'Still Sealed',   day: 'Sat PM',  classified: true,
+    blurb: 'Bring an appetite. That is not a clue. Or is it.' },
+  { num: 'VI',   name: 'GO TO BED',       discipline: 'Still Sealed',   day: 'Sat Late', classified: true,
+    blurb: 'Late-night slot. Past entries: lawn darts, karaoke, an ill-advised piñata. This year: sealed.' },
+  { num: 'VII',  name: 'HUNGOVER?',       discipline: 'Still Sealed',   day: 'Sun AM',  classified: true,
+    blurb: 'Sunday morning. Draw your own conclusions. Details at the briefing.' },
+  { num: 'VIII', name: 'ONE MORE SLEEP',  discipline: 'Still Sealed',   day: 'Sun PM',  classified: true,
+    blurb: 'The penultimate event. Points scaled by participation. Participation is not optional.' },
+  { num: 'IX',   name: 'THE DECIDER',     discipline: 'Still Sealed',   day: 'Sun PM',  classified: true,
+    blurb: 'Tradition says it always involves running. Tradition has been wrong before.' },
+  { num: 'X',    name: 'CLOSING CEREMONY', discipline: 'Ritual',        day: 'Sun PM',  classified: false,
     blurb: 'Engraving of the shield. Wooden spoon awarded. Speeches encouraged but mocked.' },
 ];
 
@@ -1042,7 +1044,7 @@ const TopNav = ({ current, onNavigate }) => {
         ))}
       </nav>
       <div className="topnav-meta">
-        MMXXVI · 25–27 SEPT · MANGAWHAI
+        MMXXVI · 25–27 SEPT · LOCATION TBC
       </div>
     </header>
   );
@@ -1111,7 +1113,7 @@ const Footer = () => (
           color: 'var(--gold)',
         }}>RSVP@DADOLYMPICS.CO.NZ</a>
         <div className="mono" style={{fontSize: 11, color: 'var(--muted)', letterSpacing:'0.22em'}}>
-          MMXXVI · 25–27 SEPT · MANGAWHAI · NZ
+          MMXXVI · 25–27 SEPT · NEW ZEALAND
         </div>
       </div>
     </div>
@@ -1171,7 +1173,7 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
         textTransform: 'uppercase',
         color: 'var(--fg-dim)',
       }}>
-        Mangawhai · Northland · Aotearoa New Zealand
+        Location TBC · Aotearoa · New Zealand
       </div>
       <p style={{
         fontFamily: 'Inter, sans-serif',
@@ -1206,7 +1208,7 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
         </div>
         {React.cloneElement(wordmark, {style: {...wordmark.props.style, textAlign:'center'}})}
         <div className="flex col gap-16" style={{alignItems:'center'}}>
-          <div className="eyebrow">EDITION V · MMXXVI · 25–27 SEPT · MANGAWHAI</div>
+          <div className="eyebrow">EDITION V · MMXXVI · 25–27 SEPT · LOCATION TBC</div>
           <p style={{
             fontSize: 16, color:'var(--fg-dim)', maxWidth: 560, margin: 0,
             textWrap: 'pretty',
@@ -1315,7 +1317,7 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
           <Chyron>LIVE · COUNTDOWN ACTIVE</Chyron>
           {wordmarkOf('clamp(120px, 22vw, 320px)')}
           <div className="eyebrow" style={{textShadow: '0 1px 4px rgba(0,0,0,0.9)'}}>
-            EDITION V · MMXXVI · 25–27 SEPT · MANGAWHAI
+            EDITION V · MMXXVI · 25–27 SEPT · LOCATION TBC
           </div>
           <div style={{display:'flex', marginTop: 12, justifyContent:'center'}}>
             <button
@@ -1726,7 +1728,7 @@ const Home = ({ onNavigate }) => {
             <div className="flex col gap-24">
               <div style={{display:'flex', gap: 16, alignItems:'center'}}>
                 <Chyron>EDITION V · MMXXVI</Chyron>
-                <span className="eyebrow-muted">25–27 SEPT · MANGAWHAI</span>
+                <span className="eyebrow-muted">25–27 SEPT · LOCATION TBC</span>
               </div>
               <div className="display" style={{fontSize: 'clamp(72px, 10vw, 144px)'}}>
                 THE FIFTH<br/>
@@ -1764,8 +1766,8 @@ const Home = ({ onNavigate }) => {
         'DEFEND THE SHIELD OR WATCH IT WALK',
         'ENGRAVING SCHEDULED · SUN 17:30',
         'WOODEN SPOON STILL UNCLAIMED',
-        'BBQ TEMP · 110°C LOW & SLOW',
-        'TIDE LOW · 06:42',
+        'LOCATION · CLASSIFIED',
+        'NINE SEALED ENVELOPES · ZERO LEAKS',
         'CHAMPIONS REEL ON LOOP IN THE LOUNGE',
       ]}/>
 
@@ -1846,6 +1848,7 @@ const Events = ({ onNavigate }) => {
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
             Nine disciplines plus the closing ceremony, scored from 10 down to 1 by finishing position.
             Tied finishes split points. Refusal to compete = 0. Wooden spoon to lowest aggregate.
+            This year every seal stays intact until the opening ceremony — venue, events, all of it.
           </p>
         </div>
       </section>
