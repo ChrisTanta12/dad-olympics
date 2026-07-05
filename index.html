@@ -557,6 +557,64 @@ table.history-table {
   .wordmark { font-size: clamp(40px, 15vw, 320px) !important; }
 }
 
+/* ----- ambient beer ghost: pops up, drains, disappears ----- */
+.beer-ghost {
+  position: fixed;
+  z-index: 600;
+  pointer-events: none;
+  animation: bg-pop 3.4s ease both;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+}
+.beer-ghost .glass {
+  position: relative;
+  width: 34px;
+  height: 46px;
+  border: 2px solid rgba(232, 228, 216, 0.8);
+  border-radius: 3px 3px 7px 7px;
+  background: rgba(232, 228, 216, 0.06);
+}
+.beer-ghost .glass::after {
+  /* mug handle */
+  content: "";
+  position: absolute;
+  right: -12px;
+  top: 9px;
+  width: 10px;
+  height: 20px;
+  border: 2px solid rgba(232, 228, 216, 0.8);
+  border-left: none;
+  border-radius: 0 9px 9px 0;
+}
+.beer-ghost .beer {
+  position: absolute;
+  left: 3px; right: 3px; bottom: 3px;
+  background: linear-gradient(180deg, #F0B440 0%, #C97F1B 100%);
+  border-radius: 1px 1px 4px 4px;
+  animation: bg-drain 3.4s ease-in both;
+}
+.beer-ghost .beer::before {
+  /* foam riding on top of the beer */
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -2px; right: -2px;
+  height: 7px;
+  background: #F3EDDD;
+  border-radius: 4px;
+}
+@keyframes bg-pop {
+  0%   { opacity: 0; transform: scale(0.4) translateY(8px); }
+  8%   { opacity: 1; transform: scale(1) translateY(0); }
+  88%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+@keyframes bg-drain {
+  0%   { height: 82%; }
+  12%  { height: 82%; }
+  88%  { height: 2%; }
+  100% { height: 0%; }
+}
+
 /* ----- floating days-to-go chip ----- */
 .days-chip {
   position: fixed;
@@ -1307,6 +1365,41 @@ const PhotoDrop = () => {
   );
 };
 
+// Ambient gag: roughly every 15 seconds a little beer appears somewhere
+// on the page, drains itself, and vanishes. Skipped for people who've
+// asked their device for reduced motion.
+const BeerGhost = () => {
+  const [glass, setGlass] = React.useState(null);
+
+  React.useEffect(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let alive = true;
+    let timer;
+    const LIFETIME = 3400;
+    const spawn = () => {
+      if (!alive) return;
+      setGlass({
+        x: 6 + Math.random() * 84,   // vw
+        y: 14 + Math.random() * 62,  // vh
+        id: Date.now(),
+      });
+      timer = setTimeout(() => {
+        setGlass(null);
+        if (alive) timer = setTimeout(spawn, 13000 + Math.random() * 4000);
+      }, LIFETIME);
+    };
+    timer = setTimeout(spawn, 8000);
+    return () => { alive = false; clearTimeout(timer); };
+  }, []);
+
+  if (!glass) return null;
+  return (
+    <div key={glass.id} className="beer-ghost" style={{ left: glass.x + 'vw', top: glass.y + 'vh' }}>
+      <div className="glass"><div className="beer"/></div>
+    </div>
+  );
+};
+
 const Footer = () => (
   <footer style={{
     borderTop: '1px solid var(--line)',
@@ -1356,6 +1449,7 @@ window.Chyron = Chyron;
 window.Footer = Footer;
 window.PhotoDrop = PhotoDrop;
 window.photoDropClick = photoDropClick;
+window.BeerGhost = BeerGhost;
   </script>
 
   <!-- ============================================================
@@ -2644,6 +2738,8 @@ const App = () => {
       )}
 
       {showNav && <DaysChip onNavigate={navigate}/>}
+
+      {showNav && <BeerGhost/>}
 
       <PhotoDrop/>
 
