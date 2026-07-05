@@ -3,71 +3,71 @@ window.GALLERY = {
   "2022": [
     {
       "file": "287349728_1176689916453045_4055408211202126240_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "287760930_763211194693202_3369375099844821497_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "288154521_341691354783210_7341962620659634438_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "288416916_1156477801586155_6405746204494332049_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "288447576_831270554509092_3848106984161701434_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "288503706_1610584139311633_7540677644341595564_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "288653682_5304412496285011_1700123388722095873_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "288874701_3199660860322162_283232847936888887_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "289102780_559264912531119_7991198450777823686_n_1.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "679903562_1688090955706921_2742883191634750963_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "681199397_1613296956393599_2865825699740880284_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "681274056_1337024128324798_6732981083513022288_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "681289991_970222025756005_8794629201961467119_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "683239060_1673052240488377_8470310002969304637_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "683606121_914507484935868_5619583689184204990_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "683828127_1758722228625372_546233641146381029_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "687787963_26669736449342770_8159258532721465283_n.jpg",
-      "caption": "BEER OLYMPICS · 2022"
+      "caption": "BEER OLYMPICS"
     }
   ],
   "2023": [
@@ -77,31 +77,31 @@ window.GALLERY = {
     },
     {
       "file": "681258769_2875916532774501_7188074566999703194_n.jpg",
-      "caption": "BEER OLYMPICS · 2023"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "683590756_973770878927765_3887342966312858526_n.jpg",
-      "caption": "BEER OLYMPICS · 2023"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "683659359_1689370118756114_8746314934907440809_n.jpg",
-      "caption": "BEER OLYMPICS · 2023"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "684503483_974186488361152_1067327605755669246_n.jpg",
-      "caption": "BEER OLYMPICS · 2023"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "685828775_4356660651264154_668102359248930005_n.jpg",
-      "caption": "BEER OLYMPICS · 2023"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "686336947_4512274069097759_3358200323392907631_n.jpg",
-      "caption": "BEER OLYMPICS · 2023"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "686913222_1725897005443720_119554001853564257_n.jpg",
-      "caption": "BEER OLYMPICS · 2023"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "drift-trikes-podium.jpg",
@@ -153,43 +153,43 @@ window.GALLERY = {
   "2025": [
     {
       "file": "680133596_1485700702959996_7679571616297856078_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "683198695_1435712398308166_882123653470275189_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "683635689_979449595027106_7008493123460308522_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "683828127_777618348620691_6607743754828100043_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "684301354_957592210510188_5908492734492280398_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "685673865_1290505632547462_7003283977252488994_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "685704677_1762228624744726_3146347334782072564_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "685724543_2149667969164280_1255204253080552396_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "687488110_1446544373363893_1689036543393843943_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "687635267_977228578195317_3176014698675453744_n.jpg",
-      "caption": "BEER OLYMPICS · 2025"
+      "caption": "BEER OLYMPICS"
     },
     {
       "file": "champ-2025-portrait.jpg",

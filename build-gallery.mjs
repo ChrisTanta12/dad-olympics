@@ -46,12 +46,12 @@ for (const year of yearDirs) {
 
 function deriveCaption(filename, year) {
   const base = filename.replace(/\.[^.]+$/, '');
-  // Facebook export style — long random digits, drop and use the year tag
-  if (/^\d{8,}/.test(base)) return `BEER OLYMPICS · ${year}`;
-  // IMG-YYYYMMDD-WAxxxx → just date the year
-  if (/^IMG-\d{8}-WA/.test(base)) return `MATCH DAY · ${year}`;
-  // YYYYMMDD_HHMMSS phone format
-  if (/^\d{8}_\d{6}/.test(base)) return `MATCH DAY · ${year}`;
+  // The year chip is rendered separately on each tile, so captions skip it.
+  // Facebook export style — long random digits, drop entirely
+  if (/^\d{8,}/.test(base)) return 'BEER OLYMPICS';
+  // IMG-YYYYMMDD-WAxxxx or YYYYMMDD_HHMMSS phone formats
+  if (/^IMG-\d{8}-WA/.test(base)) return 'MATCH DAY';
+  if (/^\d{8}_\d{6}/.test(base)) return 'MATCH DAY';
   // human-readable filename — clean up
   return base.replace(/[_-]+/g, ' ').toUpperCase().slice(0, 48);
 }
