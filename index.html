@@ -973,10 +973,66 @@ const EVENTS = [
 ];
 
 const HISTORY = [
-  { year: 'MMXXV',  arabic: 2025, champion: 'Brownie',           silver: 'Fingers',  bronze: 'Tinling', spoon: '—', location: 'TBC' },
-  { year: 'MMXXIV', arabic: 2024, champion: 'Brownie',           silver: 'Fingers',  bronze: 'Tinling', spoon: '—', location: 'TBC' },
-  { year: 'MMXXIII',arabic: 2023, champion: 'Brownie & Tinling', silver: '—',         bronze: 'Fingers', spoon: '—', location: 'TBC' },
-  { year: 'MMXXII', arabic: 2022, champion: 'Brownie',           silver: 'Tinling',  bronze: 'Fingers', spoon: '—', location: 'TBC' },
+  { year: 'MMXXV',  arabic: 2025, champion: 'Brownie',           silver: 'Fingers',  bronze: 'Tinling', spoon: '—', location: 'Merimbula' },
+  { year: 'MMXXIV', arabic: 2024, champion: 'Brownie',           silver: 'Fingers',  bronze: 'Tinling', spoon: '—', location: 'Gold Coast' },
+  { year: 'MMXXIII',arabic: 2023, champion: 'Brownie & Tinling', silver: '—',         bronze: 'Fingers', spoon: '—', location: 'Tauranga' },
+  { year: 'MMXXII', arabic: 2022, champion: 'Brownie',           silver: 'Tinling',  bronze: 'Fingers', spoon: '—', location: 'Canberra' },
+];
+
+// Event-by-event scoreboards, straight from the official spreadsheet.
+// scores align with the competitors array; null = didn't apply.
+const SCOREBOARDS = [
+  { year: 2025, roman: 'MMXXV', location: 'Merimbula', dates: '19–22 Sept',
+    competitors: ['Brownie', 'Fingers', 'Tinling', 'Rhys'],
+    events: [
+      { name: 'Bucket Golf',    scores: [4, 3, 2, 1] },
+      { name: 'Ice Bath',       scores: [4, 4, 4, 4] },
+      { name: 'Boat Race',      scores: [2, 4, 4, 2], note: 'team event' },
+      { name: 'Beer Pong',      scores: [3, 1, 2, 4] },
+      { name: 'Lawn Bowls',     scores: [2, 4, 4, 2], note: 'team event' },
+      { name: 'Asshole',        scores: [3, 4, 1, 2] },
+      { name: 'Strawpedo',      scores: [4, 3, 2, 1] },
+      { name: 'Golf',           scores: [4, 2, 2, 4], note: 'team event' },
+      { name: 'Bonus',          scores: [null, null, 1, null], note: 'brought the official vessel' },
+    ],
+    footnote: 'Four in the ice bath, four points each. Some events transcend competition.' },
+  { year: 2024, roman: 'MMXXIV', location: 'Gold Coast', dates: '20–21 Sept',
+    competitors: ['Brownie', 'Fingers', 'Tinling'],
+    events: [
+      { name: 'Climbing Speedwall',   scores: [2, 3, 1] },
+      { name: 'All You Can Eat Tacos', scores: [1, 2, 3] },
+      { name: 'Top Golf',             scores: [1, 2, 3] },
+      { name: 'Disc Golf',            scores: [3, 1, 2] },
+      { name: 'Beer Pong',            scores: [3, 2, 1] },
+      { name: 'Pub Crawl',            scores: [2, 3, 1] },
+      { name: 'Casino',               scores: [3, 2, 1] },
+    ],
+    footnote: 'Tied 15–15 at the top. Tie-break: Brownie 3, Fingers 2, Tinling 0. The shield stayed home.' },
+  { year: 2023, roman: 'MMXXIII', location: 'Tauranga', dates: '23–24 Sept',
+    competitors: ['Brownie', 'Fingers', 'Tinling'],
+    events: [
+      { name: 'Steak & Eggs',   scores: [2, 1, 3] },
+      { name: 'Drift Trikes',   scores: [1, 2, 3] },
+      { name: 'Dog Throw',      scores: [2, 3, 1] },
+      { name: 'Mini Golf',      scores: [2, 2, 3] },
+      { name: 'Darts Comp',     scores: [3, 2, 1] },
+      { name: 'Strawpedos',     scores: [3, 1, 2] },
+      { name: 'Beer Pong',      scores: [2, 1, 3] },
+      { name: 'Street Fighter', scores: [2, 3, 1] },
+    ],
+    footnote: 'Brownie and Tinling tied on 17. No tie-break was played. The title is shared. Under protest.' },
+  { year: 2022, roman: 'MMXXII', location: 'Canberra', dates: '17–19 June',
+    competitors: ['Brownie', 'Fingers', 'Tinling'],
+    events: [
+      { name: 'Go Karting',   scores: [2, 1, 3] },
+      { name: 'Beer Pong',    scores: [1, 3, 2] },
+      { name: 'Scooter Race', scores: [3, 1, 2] },
+      { name: 'Indoor Golf',  scores: [3, 1, 2] },
+      { name: 'Strawpedos',   scores: [3, -100, 2] },
+      { name: 'Strong Man',   scores: [3, 1, 2] },
+      { name: 'Basketball',   scores: [2, 1, 3] },
+    ],
+    footnote: 'Yes, Fingers scored −100 on strawpedos. No, it will never be forgotten.' },
 ];
 
 const MEDAL_TABLE = (() => {
@@ -1001,12 +1057,12 @@ const MEDAL_TABLE = (() => {
 })();
 
 const HALL_OF_SHAME = [
-  { year: 2024, who: 'Fingers', incident: 'Strawpedos · scored −100. The only sub-zero result on record.' },
+  { year: 2022, who: 'Fingers', incident: 'Strawpedos · scored −100. The only sub-zero result on record. Finished the weekend on −92.' },
   { year: 2023, who: 'Brownie & Tinling', incident: 'Tied for first. Refused tie-break. Title shared under protest.' },
 ];
 
 window.DAD = {
-  EVENT_DATE, PHOTO_DROP_URL, PAST_CHAMPIONS, REIGNING, EVENTS, HISTORY, MEDAL_TABLE, HALL_OF_SHAME
+  EVENT_DATE, PHOTO_DROP_URL, PAST_CHAMPIONS, REIGNING, EVENTS, HISTORY, MEDAL_TABLE, HALL_OF_SHAME, SCOREBOARDS
 };
   </script>
 
@@ -1939,9 +1995,98 @@ window.Events = Events;
   </script>
 
   <!-- ============================================================
-       page-history: engraving log + medal table + hall of shame
+       page-history: engraving log + scoreboards + medal table + hall of shame
        ============================================================ -->
   <script type="text/babel">
+const Scoreboards = () => {
+  const boards = window.DAD.SCOREBOARDS;
+  const [year, setYear] = React.useState(boards[0].year);
+  const sb = boards.find(b => b.year === year);
+  const totals = sb.competitors.map((_, ci) =>
+    sb.events.reduce((t, ev) => t + (ev.scores[ci] ?? 0), 0));
+  const best = Math.max(...totals);
+
+  return (
+    <section className="container-wide" style={{padding: '64px 28px 0'}}>
+      <div className="flex between" style={{alignItems:'flex-end', marginBottom: 24, flexWrap:'wrap', gap: 16}}>
+        <div>
+          <div className="eyebrow">THE SCOREBOARDS · EVENT BY EVENT</div>
+          <div className="display" style={{fontSize: 56, marginTop: 8}}>PICK A YEAR. RELIVE THE PAIN.</div>
+        </div>
+        <div style={{display:'flex', flexWrap:'wrap', gap: 8}}>
+          {boards.map(b => (
+            <button key={b.year} onClick={() => setYear(b.year)} style={{
+              background: year === b.year ? 'var(--gold)' : 'transparent',
+              color: year === b.year ? '#0a0a0e' : 'var(--fg-dim)',
+              border: '1px solid var(--line)',
+              fontFamily:'JetBrains Mono, monospace',
+              fontSize: 12,
+              letterSpacing:'0.2em',
+              padding: '10px 16px',
+              cursor:'pointer',
+            }}>{b.year}</button>
+          ))}
+        </div>
+      </div>
+
+      <div className="eyebrow-muted" style={{marginBottom: 16}}>
+        {sb.roman} · {sb.location.toUpperCase()} · {sb.dates.toUpperCase()}
+      </div>
+
+      <table className="history-table">
+        <thead>
+          <tr>
+            <th>Event</th>
+            {sb.competitors.map(c => <th key={c}>{c}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {sb.events.map((ev, i) => {
+            const rowBest = Math.max(...ev.scores.filter(s => s != null));
+            return (
+              <tr key={i}>
+                <td>
+                  <span className="display" style={{fontSize: 17}}>{ev.name.toUpperCase()}</span>
+                  {ev.note && (
+                    <span className="mono" style={{marginLeft: 12, fontSize: 11, letterSpacing:'0.14em', color:'var(--muted)', textTransform:'uppercase'}}>
+                      {ev.note}
+                    </span>
+                  )}
+                </td>
+                {ev.scores.map((s, ci) => (
+                  <td key={ci} style={{
+                    color: s === rowBest ? 'var(--gold)' : s != null && s < 0 ? '#D04040' : 'var(--fg-dim)',
+                    fontWeight: s === rowBest ? 600 : 400,
+                  }}>
+                    {s == null ? '—' : s}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+          <tr>
+            <td><span className="display" style={{fontSize: 17, color:'var(--gold)'}}>TOTAL</span></td>
+            {totals.map((t, ci) => (
+              <td key={ci} style={{
+                fontWeight: t === best ? 700 : 400,
+                color: t === best ? 'var(--gold)' : t < 0 ? '#D04040' : 'var(--fg)',
+              }}>
+                {t === best ? '◆ ' : ''}{t}
+              </td>
+            ))}
+          </tr>
+        </tbody>
+      </table>
+
+      {sb.footnote && (
+        <p style={{fontSize: 13, color:'var(--fg-dim)', marginTop: 14, textWrap:'pretty'}}>
+          {sb.footnote}
+        </p>
+      )}
+    </section>
+  );
+};
+
 const History = () => {
   const [sortKey, setSortKey] = React.useState('gold');
   const sorted = React.useMemo(() => {
@@ -2000,6 +2145,8 @@ const History = () => {
           </tbody>
         </table>
       </section>
+
+      <Scoreboards/>
 
       <section className="container-wide" style={{padding: '64px 28px'}}>
         <div className="flex between" style={{alignItems:'flex-end', marginBottom: 24}}>
