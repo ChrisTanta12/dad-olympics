@@ -83,6 +83,10 @@ window.GALLERY = {
       "caption": "OFFICIAL TEAM KIT"
     },
     {
+      "file": "champ-2025-portrait.jpg",
+      "caption": "THE CHAMP · CATCH HIM IF YOU CAN"
+    },
+    {
       "file": "drift-trikes-podium.jpg",
       "caption": "DRIFT TRIKES PODIUM"
     }
