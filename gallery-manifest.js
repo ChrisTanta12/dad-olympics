@@ -148,6 +148,10 @@ window.GALLERY = {
     {
       "file": "IMG-20240921-WA0010.jpeg",
       "caption": "MID RANGE · PRO SERIES"
+    },
+    {
+      "file": "champ-topgolf-salute.jpg",
+      "caption": "THE CHAMP · CATCH HIM IF YOU CAN"
     }
   ],
   "2025": [
@@ -161,7 +165,7 @@ window.GALLERY = {
     },
     {
       "file": "683635689_979449595027106_7008493123460308522_n.jpg",
-      "caption": "BEER OLYMPICS"
+      "caption": "PRIZEGIVING · ALL ACCOUNTED FOR"
     },
     {
       "file": "683828127_777618348620691_6607743754828100043_n.jpg",
@@ -190,10 +194,6 @@ window.GALLERY = {
     {
       "file": "687635267_977228578195317_3176014698675453744_n.jpg",
       "caption": "BEER OLYMPICS"
-    },
-    {
-      "file": "champ-2025-portrait.jpg",
-      "caption": "THE CHAMP · CATCH HIM IF YOU CAN"
     }
   ]
 };
