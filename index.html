@@ -936,7 +936,8 @@ const PAST_CHAMPIONS = [
   { year: 'MMXXIV',  yearArabic: 2024, name: 'BROWNIE',           tag: 'Defended · Drift Trikes Sweep',
     image: 'gallery/2024/20240921_145110.jpg' },
   { year: 'MMXXV',   yearArabic: 2025, name: 'BROWNIE',           tag: 'Three-peat · Reigning Champion',
-    image: 'gallery/2025/drift-trikes-podium.jpg' },
+    image: 'gallery/2025/drift-trikes-podium.jpg',
+    portrait: 'gallery/2025/champ-2025-portrait.jpg' },
 ];
 
 const REIGNING = PAST_CHAMPIONS[PAST_CHAMPIONS.length - 1];
@@ -1642,11 +1643,11 @@ const ReigningChampion = () => {
             </div>
             <div>
               <div className="eyebrow-muted">DEFENDING</div>
-              <div className="display" style={{fontSize: 36, marginTop: 4}}>UNFORTUNATELY</div>
+              <div className="display" style={{fontSize: 36, marginTop: 4}}>ALWAYS</div>
             </div>
             <div>
               <div className="eyebrow-muted">SIGNATURE EVENT</div>
-              <div className="display" style={{fontSize: 36, marginTop: 4}}>DRIFT TRIKES</div>
+              <div className="display" style={{fontSize: 36, marginTop: 4}}>STRAWPEDOES</div>
             </div>
             <div>
               <div className="eyebrow-muted">QUOTE</div>
@@ -1657,13 +1658,13 @@ const ReigningChampion = () => {
                 fontStyle: 'italic',
                 marginTop: 4,
                 maxWidth: 280,
-              }}>"It's mine until it isn't."</div>
+              }}>"Catch me if you can, losers."</div>
             </div>
           </div>
         </div>
         <div style={{aspectRatio: '3/4', position: 'relative'}}>
           <img
-            src={encodeURI(c.image)}
+            src={encodeURI(c.portrait || c.image)}
             alt={`${c.name} — reigning champion`}
             style={{
               position:'absolute', inset: 0,
