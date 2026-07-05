@@ -942,11 +942,11 @@ const EVENT_DATE = new Date('2026-09-25T17:00:00+12:00');
 const PHOTO_DROP_URL = 'https://drive.google.com/drive/folders/1RiC3LKhENH6OAUgA1mdYMcgsI_W6mAEM';
 
 const PAST_CHAMPIONS = [
-  { year: 'MMXXII',  yearArabic: 2022, name: 'BROWNIE',           tag: 'Inaugural Champion · 1st Title',
+  { year: 'MMXXII',  yearArabic: 2022, name: 'BROWNIE',           tag: 'The First One · Canberra',
     image: 'gallery/2022/288653682_5304412496285011_1700123388722095873_n.jpg' },
   { year: 'MMXXIII', yearArabic: 2023, name: 'BROWNIE & TINLING', tag: 'Joint Champions · Tie Unbroken',
     image: 'gallery/2023/nick-chris-hero.jpg' },
-  { year: 'MMXXIV',  yearArabic: 2024, name: 'BROWNIE',           tag: 'Defended · Drift Trikes Sweep',
+  { year: 'MMXXIV',  yearArabic: 2024, name: 'BROWNIE',           tag: 'Defended · Won On A Tie-Break',
     image: 'gallery/2024/champ-topgolf-salute.jpg' },
   { year: 'MMXXV',   yearArabic: 2025, name: 'BROWNIE',           tag: 'Three-peat · Reigning Champion',
     image: 'gallery/2025/685724543_2149667969164280_1255204253080552396_n.jpg' },
@@ -1617,7 +1617,7 @@ const ChampionsReel = ({ transition, onComplete, onSkip }) => {
           PRESS ESC OR CLICK SKIP TO ENTER
         </div>
         <div className="mono" style={{fontSize: 11, letterSpacing:'0.24em', color: 'var(--gold)'}}>
-          {i === slides.length - 1 ? 'ENTERING ARENA…' : 'NEXT TAPE QUEUED'}
+          {i === slides.length - 1 ? 'RIGHT, IN WE GO…' : 'NEXT TAPE QUEUED'}
         </div>
       </div>
     </div>
@@ -1857,7 +1857,7 @@ const Home = ({ onNavigate }) => {
 
       <section className="container-wide" style={{padding: '32px 28px'}}>
         <div className="flex between" style={{alignItems:'flex-end', marginBottom: 16}}>
-          <div className="eyebrow">T-MINUS · OPENING CEREMONY</div>
+          <div className="eyebrow">T-MINUS · KICK-OFF</div>
           <div className="eyebrow-muted">FRI 25 SEPT 2026 · 17:00 NZST</div>
         </div>
         <Countdown/>
@@ -1879,7 +1879,7 @@ const Home = ({ onNavigate }) => {
           <div>
             <div className="eyebrow">THE EVENTS</div>
             <div className="display" style={{fontSize: 'clamp(48px, 6vw, 88px)', marginTop: 8}}>
-              NINE DISCIPLINES.<br/>ONE SHIELD.
+              NINE EVENTS.<br/>ONE SHIELD.
             </div>
           </div>
           <button className="btn btn-ghost" onClick={() => onNavigate('events')}>
