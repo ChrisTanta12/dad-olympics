@@ -525,6 +525,25 @@ table.history-table {
   100% { background-position: -100% 0%; opacity: 0; }
 }
 
+/* ----- mobile ----- */
+@media (max-width: 860px) {
+  .grid-2col { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .countdown-grid { grid-template-columns: repeat(2, 1fr); }
+  .countdown-cell:nth-child(2) { border-right: none; }
+  .countdown-cell:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .sched-row { grid-template-columns: 56px 1fr !important; gap: 12px 16px !important; }
+  .sched-row > :nth-child(3),
+  .sched-row > :nth-child(4) { grid-column: 2; text-align: left !important; }
+  .history-table { display: block; overflow-x: auto; white-space: nowrap; }
+  .topnav { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+  .topnav-links { gap: 16px; letter-spacing: 0.18em; }
+  .topnav-meta { display: none; }
+  .reel-caption { left: 24px; bottom: 48px; right: 24px; }
+  .reel-bar { padding: 0 16px; }
+  .btn-hero { padding: 20px 36px; font-size: 22px; }
+  .container, .container-wide { padding: 0 16px; }
+}
+
 /* ----- konami toast ----- */
 .toast {
   position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
@@ -877,41 +896,44 @@ function TweakButton({ label, children, onClick, secondary = false }) {
        data: champions, events, history, hall of shame
        ============================================================ -->
   <script type="text/babel">
-const EVENT_DATE = new Date('2026-09-25T17:00:00+13:00');
+// NZ daylight saving starts Sun 27 Sept 2026, so Friday kick-off is still NZST (+12:00)
+const EVENT_DATE = new Date('2026-09-25T17:00:00+12:00');
 
 const PAST_CHAMPIONS = [
   { year: 'MMXXII',  yearArabic: 2022, name: 'BROWNIE',           tag: 'Inaugural Champion · 1st Title',
     image: 'gallery/2022/288653682_5304412496285011_1700123388722095873_n.jpg' },
   { year: 'MMXXIII', yearArabic: 2023, name: 'BROWNIE & TINLING', tag: 'Joint Champions · Tie Unbroken',
-    image: null /* TODO: Nick + Chris Hero */ },
+    image: null /* no photos on file — drop one into gallery/2023/ and reference it here */ },
   { year: 'MMXXIV',  yearArabic: 2024, name: 'BROWNIE',           tag: 'Defended · Drift Trikes Sweep',
-    image: null },
+    image: 'gallery/2024/20240921_145110.jpg' },
   { year: 'MMXXV',   yearArabic: 2025, name: 'BROWNIE',           tag: 'Three-peat · Reigning Champion',
     image: 'gallery/2025/drift-trikes-podium.jpg' },
 ];
 
 const REIGNING = PAST_CHAMPIONS[PAST_CHAMPIONS.length - 1];
 
+// MMXXVI: every event is sealed until the opening ceremony. Even the
+// "break seal" reveals are decoys — the real lineup lives nowhere near this file.
 const EVENTS = [
-  { num: 'I',    name: 'OPENING BOWLS',       discipline: 'Lawn / Beach Bowls',      day: 'Fri PM',  classified: false,
-    blurb: 'Doubles bracket. Closest to the jack. The traditional opener — winners get first dibs on bunks.' },
-  { num: 'II',   name: 'SAND SPRINT',         discipline: 'Track · 100m',           day: 'Sat AM',  classified: false,
-    blurb: 'Hundred metres on wet sand at low tide. Spikes prohibited. Drop-out clause for hamstrings.' },
-  { num: 'III',  name: 'BEACH CRICKET',       discipline: 'Cricket · Tape Ball',     day: 'Sat AM',  classified: false,
-    blurb: 'Six-a-side. One hand one bounce off the bach. Auto-out if the ball goes in the surf.' },
-  { num: 'IV',   name: 'CORNHOLE INVITATIONAL', discipline: 'Cornhole · Singles',  day: 'Sat PM',  classified: false,
-    blurb: 'Round-robin into knockout. Bag swap permitted between rounds.' },
-  { num: 'V',    name: 'BBQ-OFF',             discipline: 'Culinary · Mains',        day: 'Sat PM',  classified: false,
-    blurb: 'Single protein, blind tasting, partners and kids judge. Sauces are weapons; use them well.' },
-  { num: 'VI',   name: '[CLASSIFIED]',         discipline: 'TBD',                    day: 'Sat Late', classified: true,
-    blurb: 'Briefing at 21:00 in the lounge. Rules sealed in an envelope until then. Past entries: lawn darts, karaoke, beer pong, an ill-advised pinata.' },
-  { num: 'VII',  name: 'BREAKFAST RELAY',      discipline: 'Cooking · Team',         day: 'Sun AM',  classified: false,
-    blurb: 'Four-leg relay: bacon, eggs, hash, plate. Hangovers count against you. Inspected by partners.' },
-  { num: 'VIII', name: 'DRINKING GAMES BLOCK', discipline: 'Mixed · Singles + Doubles', day: 'Sun PM', classified: false,
-    blurb: 'Four-game block. Flip cup, beer pong, slap cup, kings. Points scaled by participation.' },
-  { num: 'IX',   name: '[CLASSIFIED]',         discipline: 'TBD',                    day: 'Sun PM',  classified: true,
-    blurb: 'Decided by the reigning champion. Tradition: it always involves running.' },
-  { num: 'X',    name: 'CLOSING CEREMONY',     discipline: 'Ritual',                  day: 'Sun PM',  classified: false,
+  { num: 'I',    name: 'NICE TRY',        discipline: 'Still Sealed',   day: 'Fri PM',  classified: true,
+    blurb: 'The commissioner admires the curiosity. Event I is revealed at the opening ceremony and not a minute before.' },
+  { num: 'II',   name: 'STILL NO',        discipline: 'Still Sealed',   day: 'Sat AM',  classified: true,
+    blurb: 'All you get: it starts early, and hamstrings are officially on notice.' },
+  { num: 'III',  name: 'PATIENCE',        discipline: 'Still Sealed',   day: 'Sat AM',  classified: true,
+    blurb: 'Rumours that equipment is involved can be neither confirmed nor denied.' },
+  { num: 'IV',   name: 'ABSOLUTELY NOT',  discipline: 'Still Sealed',   day: 'Sat PM',  classified: true,
+    blurb: 'Event IV is known to exactly one person, and he is enjoying this.' },
+  { num: 'V',    name: 'SEALED SHUT',     discipline: 'Still Sealed',   day: 'Sat PM',  classified: true,
+    blurb: 'Bring an appetite. That is not a clue. Or is it.' },
+  { num: 'VI',   name: 'GO TO BED',       discipline: 'Still Sealed',   day: 'Sat Late', classified: true,
+    blurb: 'Late-night slot. Past entries: lawn darts, karaoke, an ill-advised piñata. This year: sealed.' },
+  { num: 'VII',  name: 'HUNGOVER?',       discipline: 'Still Sealed',   day: 'Sun AM',  classified: true,
+    blurb: 'Sunday morning. Draw your own conclusions. Details at the briefing.' },
+  { num: 'VIII', name: 'ONE MORE SLEEP',  discipline: 'Still Sealed',   day: 'Sun PM',  classified: true,
+    blurb: 'The penultimate event. Points scaled by participation. Participation is not optional.' },
+  { num: 'IX',   name: 'THE DECIDER',     discipline: 'Still Sealed',   day: 'Sun PM',  classified: true,
+    blurb: 'Tradition says it always involves running. Tradition has been wrong before.' },
+  { num: 'X',    name: 'CLOSING CEREMONY', discipline: 'Ritual',        day: 'Sun PM',  classified: false,
     blurb: 'Engraving of the shield. Wooden spoon awarded. Speeches encouraged but mocked.' },
 ];
 
@@ -1009,7 +1031,7 @@ const TopNav = ({ current, onNavigate }) => {
       <div className="topnav-brand" onClick={() => onNavigate('home')} style={{cursor:'pointer'}}>
         <span className="dot"></span>
         <span>Dad Olympics</span>
-        <span style={{color:'var(--muted)', marginLeft: 8, fontSize: 11, letterSpacing:'0.28em'}}>· EST MMXVII</span>
+        <span style={{color:'var(--muted)', marginLeft: 8, fontSize: 11, letterSpacing:'0.28em'}}>· EST MMXXII</span>
       </div>
       <nav className="topnav-links">
         {items.map(it => (
@@ -1022,7 +1044,7 @@ const TopNav = ({ current, onNavigate }) => {
         ))}
       </nav>
       <div className="topnav-meta">
-        MMXXVI · 25–27 SEPT · NZ
+        MMXXVI · 25–27 SEPT · LOCATION TBC
       </div>
     </header>
   );
@@ -1080,7 +1102,7 @@ const Footer = () => (
     <div className="container flex between" style={{flexWrap:'wrap', gap: 32, alignItems:'flex-end'}}>
       <div>
         <div className="display" style={{fontSize: 56, lineHeight: 0.9}}>DAD<br/>OLYMPICS</div>
-        <div className="eyebrow-muted" style={{marginTop: 12}}>Est. MMXVII · Defend the shield, or watch it walk.</div>
+        <div className="eyebrow-muted" style={{marginTop: 12}}>Est. MMXXII · Defend the shield, or watch it walk.</div>
       </div>
       <div className="flex col gap-8" style={{textAlign:'right'}}>
         <div className="eyebrow">RSVP · CAPTAINS ONLY</div>
@@ -1206,7 +1228,7 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
       </div>
     ),
     left: (
-      <div style={{
+      <div className="grid-2col" style={{
         display: 'grid',
         gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
         gap: 64,
@@ -1221,7 +1243,7 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
       </div>
     ),
     right: (
-      <div style={{
+      <div className="grid-2col" style={{
         display: 'grid',
         gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
         gap: 64,
@@ -1560,7 +1582,7 @@ const ReigningChampion = () => {
         backgroundImage: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 8px)',
         opacity: 0.6,
       }}/>
-      <div className="container-wide" style={{
+      <div className="container-wide grid-2col" style={{
         position: 'relative',
         padding: '64px 28px',
         display: 'grid',
@@ -1604,11 +1626,21 @@ const ReigningChampion = () => {
           </div>
         </div>
         <div style={{aspectRatio: '3/4', position: 'relative'}}>
-          <div className="placeholder" style={{position:'absolute', inset: 0}}>
-            CHAMPION PORTRAIT<br/>
-            FULL-BLEED · KEY-LIT<br/>
-            3:4 · {c.name}
-          </div>
+          <img
+            src={encodeURI(c.image)}
+            alt={`${c.name} — reigning champion`}
+            style={{
+              position:'absolute', inset: 0,
+              width:'100%', height:'100%',
+              objectFit:'cover', objectPosition:'center',
+              filter:'contrast(1.05) saturate(0.92)',
+            }}
+          />
+          <div style={{
+            position:'absolute', inset: 0,
+            background: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.65) 100%)',
+            pointerEvents:'none',
+          }}/>
           <div className="card" style={{position:'absolute', inset:0, background:'transparent'}}>
             <span className="corner tl"/><span className="corner tr"/>
             <span className="corner bl"/><span className="corner br"/>
@@ -1692,7 +1724,7 @@ const Home = ({ onNavigate }) => {
         background: 'radial-gradient(ellipse at 80% 20%, rgba(212,175,55,0.10) 0%, rgba(0,0,0,0) 50%)',
       }}>
         <div className="container-wide">
-          <div style={{display:'grid', gridTemplateColumns: '1fr 1.2fr', gap: 56, alignItems:'center'}}>
+          <div className="grid-2col" style={{display:'grid', gridTemplateColumns: '1fr 1.2fr', gap: 56, alignItems:'center'}}>
             <div className="flex col gap-24">
               <div style={{display:'flex', gap: 16, alignItems:'center'}}>
                 <Chyron>EDITION V · MMXXVI</Chyron>
@@ -1725,7 +1757,7 @@ const Home = ({ onNavigate }) => {
       <section className="container-wide" style={{padding: '32px 28px'}}>
         <div className="flex between" style={{alignItems:'flex-end', marginBottom: 16}}>
           <div className="eyebrow">T-MINUS · OPENING CEREMONY</div>
-          <div className="eyebrow-muted">FRI 25 SEPT 2026 · 17:00 NZDT</div>
+          <div className="eyebrow-muted">FRI 25 SEPT 2026 · 17:00 NZST</div>
         </div>
         <Countdown/>
       </section>
@@ -1734,8 +1766,8 @@ const Home = ({ onNavigate }) => {
         'DEFEND THE SHIELD OR WATCH IT WALK',
         'ENGRAVING SCHEDULED · SUN 17:30',
         'WOODEN SPOON STILL UNCLAIMED',
-        'BBQ TEMP · 110°C LOW & SLOW',
-        'TIDE LOW · 06:42',
+        'LOCATION · CLASSIFIED',
+        'NINE SEALED ENVELOPES · ZERO LEAKS',
         'CHAMPIONS REEL ON LOOP IN THE LOUNGE',
       ]}/>
 
@@ -1768,7 +1800,7 @@ const Home = ({ onNavigate }) => {
         padding: '48px 0',
         background: 'rgba(0,0,0,0.3)',
       }}>
-        <div className="container-wide" style={{display:'grid', gridTemplateColumns:'2fr 1fr', gap: 48, alignItems:'center'}}>
+        <div className="container-wide grid-2col" style={{display:'grid', gridTemplateColumns:'2fr 1fr', gap: 48, alignItems:'center'}}>
           <div className="display" style={{fontSize: 'clamp(40px, 5vw, 72px)', lineHeight: 0.95}}>
             "DEFEND THE SHIELD,<br/>
             <span style={{color:'var(--gold)'}}>OR WATCH IT WALK.</span>"
@@ -1814,14 +1846,15 @@ const Events = ({ onNavigate }) => {
             THE <span style={{color:'var(--gold)'}}>RULES</span>.
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
-            Ten disciplines, scored from 10 down to 1 by finishing position.
+            Nine disciplines plus the closing ceremony, scored from 10 down to 1 by finishing position.
             Tied finishes split points. Refusal to compete = 0. Wooden spoon to lowest aggregate.
+            This year every seal stays intact until the opening ceremony — venue, events, all of it.
           </p>
         </div>
       </section>
 
       <section style={{borderTop:'1px solid var(--line)', borderBottom:'1px solid var(--line)', padding: '32px 0', background:'rgba(0,0,0,0.3)'}}>
-        <div className="container-wide" style={{display:'grid', gridTemplateColumns:'auto 1fr', gap: 48, alignItems:'center'}}>
+        <div className="container-wide grid-2col" style={{display:'grid', gridTemplateColumns:'auto 1fr', gap: 48, alignItems:'center'}}>
           <div className="eyebrow">SCORING</div>
           <div style={{display:'flex', gap: 4, flexWrap:'wrap'}}>
             {[10,9,8,7,6,5,4,3,2,1].map((p, i) => (
@@ -1855,7 +1888,7 @@ const Events = ({ onNavigate }) => {
               </div>
               <div style={{display:'grid', gap: 0}}>
                 {dayEvents.map((ev, i) => (
-                  <div key={i} style={{
+                  <div key={i} className="sched-row" style={{
                     display: 'grid',
                     gridTemplateColumns: '80px 1fr 200px 200px',
                     gap: 24,
@@ -2099,7 +2132,7 @@ const Gallery = () => {
             THE <span style={{color:'var(--gold)'}}>EVIDENCE</span>.
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
-            Drop new photos into <span className="mono" style={{color:'var(--gold)'}}>/public/gallery/&lt;year&gt;/</span> and they appear here. No CMS. No nonsense.
+            Drop new photos into <span className="mono" style={{color:'var(--gold)'}}>/gallery/&lt;year&gt;/</span> and they appear here. No CMS. No nonsense.
           </p>
         </div>
       </section>
@@ -2170,15 +2203,17 @@ const Gallery = () => {
               }}>
                 {t.year}
               </div>
-              <div style={{
-                position:'absolute', bottom: 8, right: 10,
-                fontFamily:'JetBrains Mono, monospace',
-                fontSize: 9, letterSpacing:'0.24em', color:'var(--fg-dim)',
-                textTransform:'uppercase',
-                textShadow: '0 1px 2px rgba(0,0,0,0.8)',
-              }}>
-                {t.caption}
-              </div>
+              {!t.empty && (
+                <div style={{
+                  position:'absolute', bottom: 8, right: 10,
+                  fontFamily:'JetBrains Mono, monospace',
+                  fontSize: 9, letterSpacing:'0.24em', color:'var(--fg-dim)',
+                  textTransform:'uppercase',
+                  textShadow: '0 1px 2px rgba(0,0,0,0.8)',
+                }}>
+                  {t.caption}
+                </div>
+              )}
             </div>
           ))}
         </div>
