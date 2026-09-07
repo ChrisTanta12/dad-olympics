@@ -1046,7 +1046,7 @@ function TweakButton({ label, children, onClick, secondary = false }) {
        ============================================================ -->
   <script type="text/babel">
 // NZ daylight saving starts Sun 27 Sept 2026, so Friday kick-off is still NZST (+12:00)
-const EVENT_DATE = new Date('2026-09-25T17:00:00+12:00');
+const EVENT_DATE = new Date('2026-09-25T12:00:00+12:00');
 
 // Shared Google Drive folder the boys upload their photos into
 const PHOTO_DROP_URL = 'https://drive.google.com/drive/folders/1RiC3LKhENH6OAUgA1mdYMcgsI_W6mAEM';
@@ -1071,23 +1071,23 @@ const REIGNING = PAST_CHAMPIONS[PAST_CHAMPIONS.length - 1];
 // MMXXVI: every event is sealed until the opening ceremony. Even the
 // "break seal" reveals are decoys — the real lineup lives nowhere near this file.
 const EVENTS = [
-  { num: 'I',    name: 'NICE TRY',        discipline: 'Still Sealed',   day: 'Fri PM',  classified: true,
-    blurb: "Love the enthusiasm. You'll find out Friday night with everyone else." },
-  { num: 'II',   name: 'STILL NO',        discipline: 'Still Sealed',   day: 'Sat AM',  classified: true,
+  { num: 'I',    name: 'NICE TRY',        discipline: 'Still Sealed',   day: 'Fri Day', time: '12:00', classified: true,
+    blurb: "Love the enthusiasm. Midday Friday, doors before noon. You'll find out standing in front of it." },
+  { num: 'II',   name: 'STILL NO',        discipline: 'Still Sealed',   day: 'Fri PM',  time: '16:00', classified: true,
+    blurb: 'Friday arvo, off-site. Dinner follows at the same venue — pack one respectable shirt.' },
+  { num: 'III',  name: 'MATE.',           discipline: 'Still Sealed',   day: 'Sat AM',  time: '09:30', classified: true,
     blurb: "All you're getting: early start, hamstrings on notice." },
-  { num: 'III',  name: 'MATE.',           discipline: 'Still Sealed',   day: 'Sat AM',  classified: true,
-    blurb: 'There may or may not be equipment involved. Moving on.' },
-  { num: 'IV',   name: 'ABSOLUTELY NOT',  discipline: 'Still Sealed',   day: 'Sat PM',  classified: true,
-    blurb: "Event IV is known to exactly one person and he's loving it." },
-  { num: 'V',    name: 'SEALED SHUT',     discipline: 'Still Sealed',   day: 'Sat PM',  classified: true,
-    blurb: "Bring an appetite. Not a clue. Or is it." },
-  { num: 'VI',   name: 'GO TO BED',       discipline: 'Still Sealed',   day: 'Sat Late', classified: true,
-    blurb: 'Late-night slot. Previous years: lawn darts, karaoke, the piñata we agreed not to talk about.' },
-  { num: 'VII',  name: 'HUNGOVER?',       discipline: 'Still Sealed',   day: 'Sun AM',  classified: true,
-    blurb: 'Sunday morning, straight after Saturday night. Do the maths.' },
-  { num: 'VIII', name: 'ONE MORE SLEEP',  discipline: 'Still Sealed',   day: 'Sun PM',  classified: true,
-    blurb: "Second-to-last event. You get points for showing up. Not showing up isn't a thing." },
-  { num: 'IX',   name: 'THE DECIDER',     discipline: 'Still Sealed',   day: 'Sun PM',  classified: true,
+  { num: 'IV',   name: 'ABSOLUTELY NOT',  discipline: 'Still Sealed',   day: 'Sat AM',  time: '11:30', classified: true,
+    blurb: 'Away fixture. Equipment supplied by your own earlier decisions. Moving on.' },
+  { num: 'V',    name: 'SEALED SHUT',     discipline: 'Still Sealed',   day: 'Sat PM',  time: '15:00', classified: true,
+    blurb: "Event V is known to exactly one person and he's loving it." },
+  { num: 'VI',   name: 'HYDRATE NOW',     discipline: 'Still Sealed',   day: 'Sat PM',  time: '17:00', classified: true,
+    blurb: 'Final concludes 18:30. Transport departs 18:45. No exceptions, no stragglers.' },
+  { num: 'VII',  name: 'GO TO BED',       discipline: 'Still Sealed',   day: 'Sat Late', time: '20:00', classified: true,
+    blurb: 'Late slot. Previous years: lawn darts, karaoke, the piñata we agreed not to talk about.' },
+  { num: 'VIII', name: 'HUNGOVER?',       discipline: 'Still Sealed',   day: 'Sun AM',  time: '10:52', classified: true,
+    blurb: 'Sunday morning, straight after Saturday night. Do the maths. And 10:52 means 10:52 — clocks go forward overnight.' },
+  { num: 'IX',   name: 'THE DECIDER',     discipline: 'Still Sealed',   day: 'Sun PM',  time: '16:30', classified: true,
     blurb: "Tradition says it always involves running. Tradition has been wrong before." },
 ];
 
@@ -2019,7 +2019,7 @@ const EventCard = ({ ev, idx, onMystery }) => {
           color: 'var(--gold)',
           letterSpacing: '0.06em',
         }}>{ev.num}</div>
-        <div className="eyebrow-muted" style={{textAlign:'right'}}>{ev.day}</div>
+        <div className="eyebrow-muted" style={{textAlign:'right'}}>{ev.day}{ev.time ? <span style={{color:'var(--gold)'}}> · {ev.time}</span> : null}</div>
       </div>
       <div style={{marginTop: 16}}>
         <div className="display" style={{fontSize: 28, lineHeight: 1.0}}>
@@ -2104,7 +2104,7 @@ const Home = ({ onNavigate }) => {
       <section className="container-wide" style={{padding: '32px 28px'}}>
         <div className="flex between" style={{alignItems:'flex-end', marginBottom: 16}}>
           <div className="eyebrow">T-MINUS · KICK-OFF</div>
-          <div className="eyebrow-muted">FRI 25 SEPT 2026 · 17:00 NZST</div>
+          <div className="eyebrow-muted">FRI 25 SEPT 2026 · 12:00 NZST</div>
         </div>
         <Countdown/>
       </section>
@@ -2115,6 +2115,7 @@ const Home = ({ onNavigate }) => {
         'WOODEN SPOON · IN BEHEMOTH\'S KITCHEN DRAWER',
         'LOCATION · STOP ASKING',
         'THE EVENTS · SEALED · ALSO STOP ASKING',
+        'CLOCKS FORWARD · SUN 02:00 · 10:52 MEANS 10:52',
         'BYO EXCUSES',
       ]}/>
 
@@ -2176,7 +2177,8 @@ window.DaysChip = DaysChip;
 const Events = ({ onNavigate }) => {
   const events = window.DAD.EVENTS;
   const days = [
-    { id: 'Fri PM',   label: 'FRIDAY · 25 SEPT', sub: 'EVENING' },
+    { id: 'Fri Day',  label: 'FRIDAY · 25 SEPT', sub: 'MIDDAY' },
+    { id: 'Fri PM',   label: 'FRIDAY · 25 SEPT', sub: 'AFTERNOON' },
     { id: 'Sat AM',   label: 'SATURDAY · 26 SEPT', sub: 'MORNING' },
     { id: 'Sat PM',   label: 'SATURDAY · 26 SEPT', sub: 'AFTERNOON' },
     { id: 'Sat Late', label: 'SATURDAY · 26 SEPT', sub: 'NIGHT' },
@@ -2229,8 +2231,11 @@ const Events = ({ onNavigate }) => {
                     <div style={{fontSize: 13, color: 'var(--fg-dim)', textWrap:'pretty'}}>
                       {ev.classified ? <span className="redact">▮▮▮▮▮▮▮▮▮▮ ▮▮▮▮▮ ▮▮▮▮▮▮▮ ▮▮▮.</span> : ev.blurb}
                     </div>
-                    <div style={{fontFamily:'JetBrains Mono, monospace', fontSize: 11, letterSpacing:'0.2em', color:'var(--muted)', textAlign:'right'}}>
-                      {ev.classified ? 'SEAL · INTACT' : 'CONFIRMED'}
+                    <div style={{textAlign:'right'}}>
+                      <div className="display" style={{fontSize: 26, lineHeight: 1}}>{ev.time}</div>
+                      <div style={{fontFamily:'JetBrains Mono, monospace', fontSize: 11, letterSpacing:'0.2em', color:'var(--muted)', marginTop: 6}}>
+                        {ev.classified ? 'SEAL · INTACT' : 'CONFIRMED'}
+                      </div>
                     </div>
                   </div>
                 ))}
