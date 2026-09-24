@@ -31,6 +31,13 @@ const SCORE_TAB = 'MMXXVI';
 const FIXED_COLS = ['ID', 'Event', 'Note', 'Entered by', 'Updated'];
 const STARTING_DADS = ['Brownie', 'Fingers', 'Tinling', 'Rhys'];
 
+// Run once from the editor (pick setupScores, click Run) to give the script
+// Sheets permission and create the scores sheet. Logs the sheet's link.
+function setupScores() {
+  const sh = scoreSheet_();
+  Logger.log(sh.getParent().getUrl());
+}
+
 function json_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
