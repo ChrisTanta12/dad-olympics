@@ -1,7 +1,7 @@
 {
-  "name": "Dad Olympics Photo Drop",
-  "short_name": "Photo Drop",
-  "description": "Send your Dad Olympics photos straight to the shared folder.",
+  "name": "Dad Olympics",
+  "short_name": "Dad Olympics",
+  "description": "Send photos to the shared folder and keep score.",
   "start_url": "/upload/",
   "scope": "/upload/",
   "display": "standalone",
