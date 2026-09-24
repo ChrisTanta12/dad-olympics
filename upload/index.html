@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Photo Drop · Dad Olympics</title>
+  <meta name="theme-color" content="#0E0E14"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Photo Drop"/>
+  <link rel="manifest" href="/upload/manifest.webmanifest"/>
+  <link rel="apple-touch-icon" href="/upload/icon-180.png"/>
+  <link rel="icon" href="/upload/icon-192.png"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <style>
+:root {
+  --bg: #0E0E14;
+  --bg-2: #16161E;
+  --bg-3: #1F1F2A;
+  --fg: #E8E4D8;
+  --fg-dim: #C9C5B8;
+  --muted: #979484;
+  --line: rgba(212, 175, 55, 0.22);
+  --line-strong: rgba(212, 175, 55, 0.55);
+  --gold: #D4AF37;
+  --gold-bright: #EBC766;
+  --red: #E0654F;
+  --green: #7BC47F;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+}
+
+body {
+  padding: calc(env(safe-area-inset-top) + 20px) 16px calc(env(safe-area-inset-bottom) + 24px);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: var(--gold);
+}
+
+h1 {
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 56px;
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  margin: 6px 0 0;
+}
+
+.shooter {
+  margin-top: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.shooter b { color: var(--fg); font-weight: 500; }
+.shooter button {
+  background: none; border: 0; padding: 4px 0 4px 8px;
+  color: var(--gold); font: inherit; letter-spacing: inherit; text-transform: inherit;
+  text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+
+.banner {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-strong);
+  background: rgba(212,175,55,0.08);
+  font-size: 14px;
+  color: var(--fg-dim);
+}
+.banner[hidden] { display: none; }
+
+.actions { display: grid; gap: 12px; margin-top: 24px; }
+
+.big {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%;
+  min-height: 84px;
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: #0a0a0e;
+  font-family: 'Anton', sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+}
+.big.ghost { background: transparent; color: var(--gold); min-height: 64px; font-size: 22px; }
+.big:active { transform: translateY(1px); filter: brightness(0.92); }
+.big svg { width: 30px; height: 30px; flex: none; }
+.big.ghost svg { width: 24px; height: 24px; }
+.big input { display: none; }
+
+.status {
+  margin-top: 28px;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+.status .count {
+  font-family: 'Anton', sans-serif; font-size: 34px; line-height: 1; color: var(--gold-bright);
+}
+.status .label {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted);
+}
+.status .now { text-align: right; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 14px;
+}
+.tile {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--bg-3);
+  overflow: hidden;
+  border: 0; padding: 0; cursor: default;
+}
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tile .badge {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 4px 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+  color: var(--fg);
+}
+.tile.waiting img, .tile.sending img { opacity: 0.55; }
+.tile.sending .badge { color: var(--gold-bright); }
+.tile.sent .badge { color: var(--green); }
+.tile.failed { cursor: pointer; outline: 2px solid var(--red); outline-offset: -2px; }
+.tile.failed .badge { color: var(--red); }
+
+.empty {
+  margin-top: 18px; color: var(--muted); font-size: 14px; text-align: center;
+}
+
+.foot {
+  margin-top: 28px; display: flex; justify-content: space-between; gap: 12px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+}
+.foot a, .foot button {
+  color: var(--muted); background: none; border: 0; padding: 8px 0; font: inherit; letter-spacing: inherit;
+  text-transform: inherit; cursor: pointer; text-decoration: none;
+}
+.foot button[hidden] { display: none; }
+
+/* first-run name sheet */
+.sheet {
+  position: fixed; inset: 0; z-index: 10;
+  background: rgba(8,8,12,0.94);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.sheet[hidden] { display: none; }
+.sheet form { width: 100%; max-width: 420px; }
+.sheet h2 {
+  font-family: 'Anton', sans-serif; font-weight: 400; font-size: 40px; line-height: 1;
+  text-transform: uppercase; margin: 8px 0 18px;
+}
+.sheet input {
+  width: 100%; padding: 16px; font-size: 20px;
+  background: var(--bg-2); color: var(--fg);
+  border: 1px solid var(--line-strong); border-radius: 0;
+  font-family: 'Inter', sans-serif;
+}
+.sheet input:focus { outline: 2px solid var(--gold); outline-offset: 0; }
+.sheet .big { margin-top: 12px; min-height: 64px; font-size: 24px; }
+  </style>
+</head>
+<body>
+  <div class="eyebrow">Dad Olympics · MMXXVI</div>
+  <h1>Photo<br/>Drop</h1>
+  <div class="shooter">Shooting as <b id="shooterName">–</b><button id="changeName" type="button">change</button></div>
+
+  <div class="banner" id="offline" hidden>No signal. Photos are saved on your phone and send when you're back online.</div>
+  <div class="banner" id="installHint" hidden></div>
+
+  <div class="actions">
+    <label class="big">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M3 8h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="13" r="4"/></svg>
+      Take photo
+      <input type="file" accept="image/*" capture="environment" id="camera"/>
+    </label>
+    <label class="big ghost">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><rect x="3" y="4" width="18" height="16"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></svg>
+      From camera roll
+      <input type="file" accept="image/*" multiple id="roll"/>
+    </label>
+  </div>
+
+  <div class="status">
+    <div>
+      <div class="count" id="sentCount">0</div>
+      <div class="label">Photos in</div>
+    </div>
+    <div class="now label" id="now"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">Nothing sent yet from this phone.</div>
+
+  <div class="foot">
+    <a href="/">← Dad Olympics site</a>
+    <button type="button" id="clearSent" hidden>Clear sent</button>
+  </div>
+
+  <div class="sheet" id="nameSheet" hidden>
+    <form id="nameForm">
+      <div class="eyebrow">Photo Drop</div>
+      <h2>Who's shooting?</h2>
+      <input id="nameInput" maxlength="24" autocomplete="nickname" autocapitalize="words" placeholder="Your name" required/>
+      <button class="big" type="submit">Let's go</button>
+    </form>
+  </div>
+
+<script>
+// Same Apps Script web app the main site uses (see drive-upload.gs).
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzfvVq4WgqyrCPCfUkz4flw6hV-MJV_-6HgvQrqH5S1obJ2VuG7dZxqFINY9BDMImfdsw/exec';
+
+// Phone photos are 3-8MB. Shrinking to this long edge keeps them sharp on a
+// screen and print-able, but sends in a couple of seconds on pub 4G.
+const MAX_EDGE = 2400;
+const JPEG_QUALITY = 0.86;
+const KEEP_SENT = 90; // sent thumbnails kept on the phone for the grid
+
+const $ = (id) => document.getElementById(id);
+
+// ---------- storage (localStorage is a convenience; IndexedDB holds the queue) ----------
+
+const ls = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+
+let db;
+function openDb() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open('photo-drop', 1);
+    req.onupgradeneeded = () => req.result.createObjectStore('photos', { keyPath: 'id' });
+    req.onsuccess = () => res(req.result);
+    req.onerror = () => rej(req.error);
+  });
+}
+function tx(mode, fn) {
+  return new Promise((res, rej) => {
+    const t = db.transaction('photos', mode);
+    const out = fn(t.objectStore('photos'));
+    t.oncomplete = () => res(out && 'result' in out ? out.result : undefined);
+    t.onerror = () => rej(t.error);
+  });
+}
+// With no IndexedDB (private mode, storage blocked) the queue lives in memory for the session.
+const putPhoto = async (p) => { if (db) await tx('readwrite', (s) => s.put(p)).catch(() => {}); };
+const delPhoto = async (id) => { if (db) await tx('readwrite', (s) => s.delete(id)).catch(() => {}); };
+const allPhotos = () => tx('readonly', (s) => s.getAll());
+
+// ---------- shooter name ----------
+
+function shooter() { return ls.get('shooter') || ''; }
+function showShooter() { $('shooterName').textContent = shooter() || '–'; }
+function askName() {
+  $('nameInput').value = shooter();
+  $('nameSheet').hidden = false;
+  setTimeout(() => $('nameInput').focus(), 50);
+}
+$('changeName').onclick = askName;
+$('nameForm').onsubmit = (e) => {
+  e.preventDefault();
+  const v = $('nameInput').value.trim();
+  if (!v) return;
+  ls.set('shooter', v);
+  $('nameSheet').hidden = true;
+  showShooter();
+};
+
+// ---------- image prep ----------
+
+function loadImage(file) {
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => { URL.revokeObjectURL(url); res(img); };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('decode')); };
+    img.src = url;
+  });
+}
+
+function drawTo(img, maxEdge) {
+  const w = img.naturalWidth, h = img.naturalHeight;
+  const scale = Math.min(1, maxEdge / Math.max(w, h));
+  const c = document.createElement('canvas');
+  c.width = Math.round(w * scale);
+  c.height = Math.round(h * scale);
+  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+  return c;
+}
+
+const toBlob = (canvas, q) => new Promise((res) => canvas.toBlob(res, 'image/jpeg', q));
+
+// Browsers apply EXIF rotation when drawing an <img>, so the canvas output is upright.
+async function prepare(file) {
+  try {
+    const img = await loadImage(file);
+    const full = await toBlob(drawTo(img, MAX_EDGE), JPEG_QUALITY);
+    const thumb = drawTo(img, 300).toDataURL('image/jpeg', 0.7);
+    // Keep the original if it's already smaller than our re-encode.
+    const blob = full && full.size < file.size ? full : file;
+    return { blob, thumb, type: blob === file ? (file.type || 'image/jpeg') : 'image/jpeg' };
+  } catch {
+    // Can't decode here (rare formats): send the original untouched.
+    return { blob: file, thumb: '', type: file.type || 'application/octet-stream' };
+  }
+}
+
+function fileName(orig, type) {
+  const who = (shooter() || 'someone').replace(/[^\w\- ]+/g, '').trim().slice(0, 24) || 'someone';
+  let base = (orig || 'photo').replace(/\.[^.]+$/, '').replace(/[^\w\-]+/g, '_').slice(0, 40) || 'photo';
+  const ext = type === 'image/jpeg' ? 'jpg' : ((orig || '').split('.').pop() || 'jpg').toLowerCase();
+  return `${who} - ${base}.${ext}`;
+}
+
+// ---------- queue ----------
+
+async function addFiles(fileList) {
+  const files = [...fileList];
+  if (!files.length) return;
+  if (!shooter()) askName();
+  for (const f of files) {
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    // Show a placeholder straight away so the tap feels instant.
+    photos.set(id, { id, status: 'waiting', thumb: '', addedAt: Date.now() });
+    render();
+    const { blob, thumb, type } = await prepare(f);
+    const rec = { id, status: 'waiting', thumb, blob, type, origName: f.name, addedAt: Date.now() };
+    photos.set(id, rec);
+    await putPhoto(rec);
+    render();
+  }
+  pump();
+}
+
+$('camera').onchange = (e) => { addFiles(e.target.files); e.target.value = ''; };
+$('roll').onchange = (e) => { addFiles(e.target.files); e.target.value = ''; };
+
+const photos = new Map();
+let pumping = false;
+
+function blobToBase64(blob) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(String(r.result).split(',')[1]);
+    r.onerror = () => rej(r.error);
+    r.readAsDataURL(blob);
+  });
+}
+
+async function send(rec) {
+  const data = await blobToBase64(rec.blob);
+  // No Content-Type header: keeps it a "simple" request so Apps Script
+  // doesn't need to answer a CORS preflight.
+  const resp = await fetch(ENDPOINT, {
+    method: 'POST',
+    body: JSON.stringify({ name: fileName(rec.origName, rec.type), mimeType: rec.type, data }),
+  });
+  const j = await resp.json();
+  if (!j.ok) throw new Error(j.error || 'upload failed');
+}
+
+async function pump() {
+  if (pumping) return;
+  pumping = true;
+  try {
+    while (navigator.onLine !== false) {
+      const next = [...photos.values()]
+        .filter((p) => p.status === 'waiting' && p.blob)
+        .sort((a, b) => a.addedAt - b.addedAt)[0];
+      if (!next) break;
+      next.status = 'sending';
+      render();
+      try {
+        await send(next);
+        next.status = 'sent';
+        next.sentAt = Date.now();
+        delete next.blob; // the photo's in Drive now; free the space
+        bump();
+      } catch {
+        next.status = 'failed';
+        next.tries = (next.tries || 0) + 1;
+      }
+      await putPhoto(next);
+      render();
+    }
+  } finally {
+    pumping = false;
+  }
+  await trimSent();
+}
+
+// Failed ones go back in the line automatically; tapping one retries now.
+function requeueFailed() {
+  let any = false;
+  for (const p of photos.values()) if (p.status === 'failed') { p.status = 'waiting'; any = true; }
+  if (any) { render(); pump(); }
+}
+
+async function trimSent() {
+  const sent = [...photos.values()].filter((p) => p.status === 'sent').sort((a, b) => b.sentAt - a.sentAt);
+  for (const p of sent.slice(KEEP_SENT)) { photos.delete(p.id); await delPhoto(p.id); }
+}
+
+function bump() {
+  ls.set('sentTotal', String((Number(ls.get('sentTotal')) || 0) + 1));
+}
+
+// ---------- render ----------
+
+const LABEL = { waiting: 'Waiting', sending: 'Sending…', sent: '✓ In', failed: 'Tap to retry' };
+
+function render() {
+  const list = [...photos.values()].sort((a, b) => b.addedAt - a.addedAt);
+  const grid = $('grid');
+  grid.textContent = '';
+  for (const p of list) {
+    const el = document.createElement('button');
+    el.type = 'button';
+    el.className = `tile ${p.status}`;
+    if (p.thumb) {
+      const img = document.createElement('img');
+      img.src = p.thumb;
+      img.alt = '';
+      el.appendChild(img);
+    }
+    const b = document.createElement('span');
+    b.className = 'badge';
+    b.textContent = LABEL[p.status];
+    el.appendChild(b);
+    if (p.status === 'failed') el.onclick = requeueFailed;
+    grid.appendChild(el);
+  }
+  $('empty').hidden = list.length > 0;
+  $('sentCount').textContent = ls.get('sentTotal') || '0';
+  $('clearSent').hidden = !list.some((p) => p.status === 'sent');
+
+  const pending = list.filter((p) => p.status !== 'sent');
+  const failed = pending.filter((p) => p.status === 'failed').length;
+  const sending = list.filter((p) => p.status === 'sending').length;
+  $('now').textContent =
+    failed ? `${failed} to retry`
+    : pending.length ? `${sending ? 'Sending' : 'Queued'} · ${pending.length} to go`
+    : '';
+  document.title = pending.length ? `(${pending.length}) Photo Drop` : 'Photo Drop · Dad Olympics';
+}
+
+$('clearSent').onclick = async () => {
+  for (const p of [...photos.values()]) if (p.status === 'sent') { photos.delete(p.id); await delPhoto(p.id); }
+  render();
+};
+
+// ---------- connectivity ----------
+
+function netState() {
+  $('offline').hidden = navigator.onLine !== false;
+  if (navigator.onLine !== false) requeueFailed();
+}
+addEventListener('online', netState);
+addEventListener('offline', netState);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { requeueFailed(); pump(); } });
+setInterval(() => { if ([...photos.values()].some((p) => p.status === 'failed')) requeueFailed(); }, 30000);
+
+// ---------- install hint ----------
+
+(function installHint() {
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  if (standalone || ls.get('hideInstall')) return;
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const el = $('installHint');
+  const close = ' <button type="button" style="background:none;border:0;color:var(--gold);font:inherit;padding:0 0 0 6px;text-decoration:underline;cursor:pointer">Hide</button>';
+  if (ios) {
+    el.innerHTML = 'Put it on your home screen: tap <b>Share</b>, then <b>Add to Home Screen</b>.' + close;
+    el.hidden = false;
+  }
+  addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    el.innerHTML = '<button type="button" id="installBtn" style="background:none;border:0;color:var(--gold-bright);font:inherit;font-weight:600;padding:0;cursor:pointer">Add Photo Drop to your home screen</button>' + close;
+    el.hidden = false;
+    $('installBtn').onclick = async () => { e.prompt(); await e.userChoice; el.hidden = true; };
+  });
+  el.addEventListener('click', (ev) => {
+    if (ev.target.textContent === 'Hide') { ls.set('hideInstall', '1'); el.hidden = true; }
+  });
+})();
+
+// ---------- boot ----------
+
+(async function boot() {
+  showShooter();
+  if (!shooter()) askName();
+  try {
+    db = await openDb();
+    for (const p of await allPhotos()) {
+      // Anything mid-send when the app was closed goes back in the line.
+      if (p.status === 'sending' || p.status === 'failed') p.status = 'waiting';
+      photos.set(p.id, p);
+    }
+  } catch {
+    db = null;
+  }
+  if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/upload/sw.js', { scope: '/upload/' }).catch(() => {});
+  netState();
+  render();
+  pump();
+})();
+</script>
+</body>
+</html>
