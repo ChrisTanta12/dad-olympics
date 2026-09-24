@@ -1048,13 +1048,6 @@ function TweakButton({ label, children, onClick, secondary = false }) {
 // NZ daylight saving starts Sun 27 Sept 2026, so Friday kick-off is still NZST (+12:00)
 const EVENT_DATE = new Date('2026-09-25T12:00:00+12:00');
 
-// Shared Google Drive folder the boys upload their photos into
-const PHOTO_DROP_URL = 'https://drive.google.com/drive/folders/1RiC3LKhENH6OAUgA1mdYMcgsI_W6mAEM';
-
-// Apps Script web-app URL for direct in-page uploads (see drive-upload.gs).
-// Leave empty to fall back to opening the Drive folder link.
-const PHOTO_UPLOAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzfvVq4WgqyrCPCfUkz4flw6hV-MJV_-6HgvQrqH5S1obJ2VuG7dZxqFINY9BDMImfdsw/exec';
-
 const PAST_CHAMPIONS = [
   { year: 'MMXXII',  yearArabic: 2022, name: 'BROWNIE',           tag: 'The First One · Canberra',
     image: 'gallery/2022/288653682_5304412496285011_1700123388722095873_n.jpg' },
@@ -1181,7 +1174,7 @@ const HALL_OF_SHAME = [
 ];
 
 window.DAD = {
-  EVENT_DATE, PHOTO_DROP_URL, PHOTO_UPLOAD_ENDPOINT,
+  EVENT_DATE,
   PAST_CHAMPIONS, REIGNING, EVENTS, HISTORY, MEDAL_TABLE, HALL_OF_SHAME, SCOREBOARDS
 };
   </script>
@@ -1254,12 +1247,9 @@ const TopNav = ({ current, onNavigate }) => {
           >{it.label}</a>
         ))}
         <a
-          href={window.DAD.PHOTO_DROP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={photoDropClick}
+          href="/upload/"
           style={{color: 'var(--gold)'}}
-        >Add Photos ↗</a>
+        >Add Photos</a>
       </nav>
       <div className="topnav-meta">
         MMXXVI · 25–27 SEPT · LOCATION TBC
@@ -1309,80 +1299,6 @@ const Chyron = ({ children }) => (
     {children}
   </span>
 );
-
-// Global photo-drop: when PHOTO_UPLOAD_ENDPOINT is set, "Add Photos" opens
-// the phone's photo picker and uploads straight to the Drive folder.
-// Without it, links fall back to opening the Drive folder page.
-const photoDropClick = (e) => {
-  if (window.DAD.PHOTO_UPLOAD_ENDPOINT && window.openPhotoDrop) {
-    e.preventDefault();
-    window.openPhotoDrop();
-  }
-};
-
-const PhotoDrop = () => {
-  const endpoint = window.DAD.PHOTO_UPLOAD_ENDPOINT;
-  const inputRef = React.useRef(null);
-  const [prog, setProg] = React.useState(null);
-
-  React.useEffect(() => {
-    window.openPhotoDrop = () => inputRef.current && inputRef.current.click();
-    return () => { delete window.openPhotoDrop; };
-  }, []);
-
-  if (!endpoint) return null;
-
-  const onFiles = async (e) => {
-    const files = [...e.target.files];
-    if (!files.length) return;
-    let done = 0, failed = 0;
-    setProg({ done, failed, total: files.length });
-    for (const f of files) {
-      try {
-        const b64 = await new Promise((res, rej) => {
-          const r = new FileReader();
-          r.onload = () => res(String(r.result).split(',')[1]);
-          r.onerror = rej;
-          r.readAsDataURL(f);
-        });
-        const resp = await fetch(endpoint, {
-          method: 'POST',
-          body: JSON.stringify({ name: f.name, mimeType: f.type, data: b64 }),
-        });
-        const j = await resp.json();
-        if (!j.ok) throw new Error(j.error);
-      } catch (err) {
-        failed++;
-      }
-      done++;
-      setProg({ done, failed, total: files.length });
-    }
-    e.target.value = '';
-    setTimeout(() => setProg(null), 5000);
-  };
-
-  return (
-    <>
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        multiple
-        style={{display:'none'}}
-        onChange={onFiles}
-      />
-      {prog && (
-        <div className="toast">
-          {prog.done < prog.total
-            ? `◆ SENDING ${prog.done + 1} / ${prog.total}…`
-            : prog.failed
-              ? `◆ ${prog.total - prog.failed} IN · ${prog.failed} FAILED — GIVE IT ANOTHER GO`
-              : `◆ ${prog.total} PHOTO${prog.total > 1 ? 'S' : ''} IN. THE RECORD GROWS.`}
-        </div>
-      )}
-    </>
-  );
-};
 
 // Ambient gag: roughly every 15 seconds a little beer appears somewhere
 // on the page, drains itself, and vanishes. Skipped for people who've
@@ -1466,8 +1382,6 @@ window.TopNav = TopNav;
 window.Marquee = Marquee;
 window.Chyron = Chyron;
 window.Footer = Footer;
-window.PhotoDrop = PhotoDrop;
-window.photoDropClick = photoDropClick;
 window.BeerGhost = BeerGhost;
   </script>
 
@@ -2557,10 +2471,7 @@ const Gallery = () => {
           <div style={{marginTop: 24}}>
             <a
               className="btn"
-              href={window.DAD.PHOTO_DROP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={window.photoDropClick}
+              href="/upload/"
             >
               ADD YOUR PHOTOS <span className="arrow">→</span>
             </a>
@@ -2752,10 +2663,7 @@ const App = () => {
       {showNav && (
         <a
           className="fab-upload"
-          href={window.DAD.PHOTO_DROP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={window.photoDropClick}
+          href="/upload/"
         >
           + ADD PHOTOS
         </a>
@@ -2765,7 +2673,6 @@ const App = () => {
 
       {showNav && <BeerGhost/>}
 
-      <PhotoDrop/>
 
       <TweaksPanel title="Tweaks">
         <TweakSection label="Hero">

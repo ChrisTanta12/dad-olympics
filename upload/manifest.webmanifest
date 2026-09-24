@@ -1,0 +1,16 @@
+{
+  "name": "Dad Olympics Photo Drop",
+  "short_name": "Photo Drop",
+  "description": "Send your Dad Olympics photos straight to the shared folder.",
+  "start_url": "/upload/",
+  "scope": "/upload/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0E0E14",
+  "theme_color": "#0E0E14",
+  "icons": [
+    { "src": "/upload/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/upload/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/upload/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
