@@ -219,6 +219,9 @@ section[hidden] { display: none; }
 .ev .ev-note { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-left: 8px; }
 .ev .ev-scores { margin-top: 4px; font-size: 13px; color: var(--fg-dim); }
 .ev .ev-scores b { color: var(--gold-bright); font-weight: 600; }
+.ev.sealed { border-style: dashed; border-color: var(--gold); }
+.list-head { margin-top: 26px; }
+.list-head + .ev-list { margin-top: 10px; }
 
 .editor { margin-top: 20px; padding: 16px; border: 1px solid var(--line-strong); background: var(--bg-2); }
 .editor[hidden] { display: none; }
@@ -342,8 +345,15 @@ section[hidden] { display: none; }
       <div class="err" id="editorErr"></div>
     </form>
 
+    <div id="upWrap" hidden>
+      <div class="eyebrow list-head">Sealed · still to score</div>
+      <div class="ev-list" id="upList"></div>
+    </div>
+
+    <div class="eyebrow list-head" id="scoredHead" hidden>Scored</div>
     <div class="ev-list" id="evList"></div>
     <div class="empty" id="evEmpty" hidden>No events scored yet.</div>
+    <button type="button" class="link-btn" id="unlock" hidden>Scorer? Unlock the events</button>
   </section>
 
   <div class="foot">
@@ -668,19 +678,30 @@ addEventListener('hashchange', showTab);
 // Every save sends the whole event row, keyed by an id made here, so a
 // retry after a dropped connection can't create a duplicate.
 
-let board = null;      // { competitors: [...], events: [{ id, name, note, by, scores: [...] }] }
+let board = null;      // { competitors: [...], events: [{ id, name, note, by, scores: [...] }], upcoming?: [...] }
 let editing = null;    // event being edited, or a fresh one
 let loadingScores = false;
 
+// The scorer key unlocks the sealed lineup (board.upcoming). Everyone else
+// only ever gets events that already have a score.
+const scorerKey = () => ls.get('scorerKey') || '';
+
 async function scoresCall(body) {
+  const key = scorerKey();
   const resp = body
-    ? await fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(body) })
-    : await fetch(`${ENDPOINT}?action=scores&t=${Date.now()}`);
+    ? await fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(key ? { ...body, key } : body) })
+    : await fetch(`${ENDPOINT}?action=scores&t=${Date.now()}${key ? '&key=' + encodeURIComponent(key) : ''}`);
   const j = await resp.json();
   if (!j.ok) throw new Error(j.error || 'failed');
   if (!Array.isArray(j.competitors)) throw Object.assign(new Error('off'), { off: true });
+  if (key && !j.scorer) {
+    ls.set('scorerKey', '');
+    alert("That scorer key didn't work.");
+  }
   return j;
 }
+
+const isSlot = (id) => /^[IVX]+$/.test(id);
 
 async function loadScores() {
   if (loadingScores) return;
@@ -712,7 +733,23 @@ function renderScores() {
   const boardEl = $('board');
   boardEl.textContent = '';
   $('evList').textContent = '';
+  $('upList').textContent = '';
+  const upcoming = (on && board.upcoming) || [];
+  $('upWrap').hidden = !upcoming.length;
+  $('scoredHead').hidden = !upcoming.length || !on || !board.events.length;
+  $('unlock').hidden = !on || !!scorerKey();
   if (!on) return;
+
+  upcoming.forEach((ev) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'ev sealed';
+    b.innerHTML = '<div><span class="ev-name"></span><span class="ev-note"></span></div>';
+    b.querySelector('.ev-name').textContent = ev.name;
+    b.querySelector('.ev-note').textContent = isSlot(ev.id) ? `Event ${ev.id}` : ev.note;
+    b.onclick = () => openEditor(ev);
+    $('upList').appendChild(b);
+  });
 
   const rows = totals();
   const top = rows.length ? rows[0].pts : 0;
@@ -757,10 +794,13 @@ function openEditor(ev) {
   editing = ev
     ? { ...ev, scores: [...ev.scores] }
     : { id: `ev_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, name: '', note: '', scores: board.competitors.map(() => null), isNew: true };
-  $('editorTitle').textContent = editing.isNew ? 'New event' : 'Edit event';
+  const sealed = !editing.isNew && editing.scores.every((s) => s == null);
+  $('editorTitle').textContent = editing.isNew ? 'New event' : sealed ? 'Score event' : 'Edit event';
   $('evName').value = editing.name;
   $('evNote').value = editing.note;
-  $('deleteEvent').hidden = !!editing.isNew;
+  // A lineup slot never gets deleted, only cleared, which seals it again.
+  $('deleteEvent').hidden = !!editing.isNew || sealed;
+  $('deleteEvent').textContent = isSlot(editing.id) ? 'Clear scores' : 'Delete event';
   $('editorErr').textContent = '';
   drawDadRows();
   $('editor').hidden = false;
@@ -828,11 +868,26 @@ $('newEvent').onclick = () => openEditor(null);
 $('cancelEdit').onclick = closeEditor;
 $('refreshScores').onclick = loadScores;
 $('deleteEvent').onclick = async () => {
+  if (isSlot(editing.id)) {
+    if (!confirm(`Clear the scores for ${editing.name}? It goes back under seal.`)) return;
+    const scores = Object.fromEntries(board.competitors.map((n) => [n, null]));
+    await busy($('deleteEvent'), 'Clearing…', async () => {
+      board = await scoresCall({ action: 'saveEvent', id: editing.id, name: editing.name, note: editing.note, by: shooter(), scores });
+      closeEditor();
+    });
+    return;
+  }
   if (!confirm(`Delete ${editing.name || 'this event'}?`)) return;
   await busy($('deleteEvent'), 'Deleting…', async () => {
     board = await scoresCall({ action: 'deleteEvent', id: editing.id });
     closeEditor();
   });
+};
+$('unlock').onclick = () => {
+  const key = (prompt('Scorer key') || '').trim();
+  if (!key) return;
+  ls.set('scorerKey', key);
+  loadScores();
 };
 $('addDad').onclick = async () => {
   const name = (prompt("New dad's name") || '').trim();

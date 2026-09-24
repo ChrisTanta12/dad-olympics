@@ -1173,9 +1173,53 @@ const HALL_OF_SHAME = [
   { year: 2023, who: 'Brownie & Tinling', incident: 'Tied for first. Refused tie-break. Title shared under protest.' },
 ];
 
+// This year's scores are entered in the app (/upload/#scores) and kept in a
+// Google Sheet behind the same Apps Script as the photo drop. The sheet only
+// hands out events that have a score, so a slot's real name never reaches
+// this page until someone scores it. Sheet rows use the slot numeral as ID.
+const SCORES_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzfvVq4WgqyrCPCfUkz4flw6hV-MJV_-6HgvQrqH5S1obJ2VuG7dZxqFINY9BDMImfdsw/exec';
+
+let liveScores = null;
+const liveListeners = new Set();
+const loadLive = () => fetch(`${SCORES_ENDPOINT}?action=scores&t=${Date.now()}`)
+  .then(r => r.json())
+  .then(j => {
+    if (!j.ok || !Array.isArray(j.events)) return;
+    liveScores = j;
+    liveListeners.forEach(fn => fn(j));
+  })
+  .catch(() => {});
+loadLive();
+setInterval(loadLive, 60000);
+
+const useLiveScores = () => {
+  const [live, setLive] = React.useState(liveScores);
+  React.useEffect(() => {
+    liveListeners.add(setLive);
+    return () => liveListeners.delete(setLive);
+  }, []);
+  return live;
+};
+
+const winnersLine = (live, ev) => {
+  const best = Math.max(...ev.scores.filter(s => s != null));
+  const who = live.competitors.filter((_, i) => ev.scores[i] === best);
+  return who.length > 1 ? `${who.join(' & ')} shared it.` : `Won by ${who[0]}.`;
+};
+
+const useEvents = () => {
+  const live = useLiveScores();
+  return React.useMemo(() => EVENTS.map(ev => {
+    const hit = live && live.events.find(e => e.id === ev.num);
+    if (!hit) return ev;
+    return { ...ev, name: hit.name.toUpperCase(), discipline: 'Seal broken · scored', blurb: winnersLine(live, hit), classified: false, scored: true };
+  }), [live]);
+};
+
 window.DAD = {
   EVENT_DATE,
-  PAST_CHAMPIONS, REIGNING, EVENTS, HISTORY, MEDAL_TABLE, HALL_OF_SHAME, SCOREBOARDS
+  PAST_CHAMPIONS, REIGNING, EVENTS, HISTORY, MEDAL_TABLE, HALL_OF_SHAME, SCOREBOARDS,
+  useLiveScores, useEvents,
 };
   </script>
 
@@ -1976,7 +2020,7 @@ const EventCard = ({ ev, idx, onMystery }) => {
 };
 
 const Home = ({ onNavigate }) => {
-  const events = window.DAD.EVENTS;
+  const events = window.DAD.useEvents();
   return (
     <div className="page-fade-enter">
       <section style={{
@@ -2089,7 +2133,7 @@ window.DaysChip = DaysChip;
        ============================================================ -->
   <script type="text/babel">
 const Events = ({ onNavigate }) => {
-  const events = window.DAD.EVENTS;
+  const events = window.DAD.useEvents();
   const days = [
     { id: 'Fri Day',  label: 'FRIDAY · 25 SEPT', sub: 'MIDDAY' },
     { id: 'Fri PM',   label: 'FRIDAY · 25 SEPT', sub: 'AFTERNOON' },
@@ -2148,7 +2192,7 @@ const Events = ({ onNavigate }) => {
                     <div style={{textAlign:'right'}}>
                       <div className="display" style={{fontSize: 26, lineHeight: 1}}>{ev.time}</div>
                       <div style={{fontFamily:'JetBrains Mono, monospace', fontSize: 11, letterSpacing:'0.2em', color:'var(--muted)', marginTop: 6}}>
-                        {ev.classified ? 'SEAL · INTACT' : 'CONFIRMED'}
+                        {ev.classified ? 'SEAL · INTACT' : ev.scored ? 'SEAL · BROKEN' : 'CONFIRMED'}
                       </div>
                     </div>
                   </div>
@@ -2169,29 +2213,14 @@ window.Events = Events;
        page-history: engraving log + scoreboards + medal table + hall of shame
        ============================================================ -->
   <script type="text/babel">
-// This year's scores are entered in the app (/upload/#scores) and kept in a
-// Google Sheet behind the same Apps Script as the photo drop.
-const SCORES_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzfvVq4WgqyrCPCfUkz4flw6hV-MJV_-6HgvQrqH5S1obJ2VuG7dZxqFINY9BDMImfdsw/exec';
-
 const Scoreboards = () => {
-  const [live, setLive] = React.useState(null);
-  React.useEffect(() => {
-    const load = () => fetch(`${SCORES_ENDPOINT}?action=scores&t=${Date.now()}`)
-      .then(r => r.json())
-      .then(j => {
-        if (!j.ok || !Array.isArray(j.events) || !j.events.length) return;
-        setLive({
-          year: 2026, roman: 'MMXXVI', location: 'Live', dates: '25–27 Sept',
-          competitors: j.competitors,
-          events: j.events.map(ev => ({ name: ev.name, note: ev.note, scores: ev.scores })),
-          footnote: 'Live from the scorers\' phones.',
-        });
-      })
-      .catch(() => {});
-    load();
-    const t = setInterval(load, 60000);
-    return () => clearInterval(t);
-  }, []);
+  const j = window.DAD.useLiveScores();
+  const live = j && j.events.length ? {
+    year: 2026, roman: 'MMXXVI', location: 'Live', dates: '25–27 Sept',
+    competitors: j.competitors,
+    events: j.events.map(ev => ({ name: ev.name, note: ev.note, scores: ev.scores })),
+    footnote: 'Live from the scorers\' phones.',
+  } : null;
 
   const boards = live ? [live, ...window.DAD.SCOREBOARDS] : window.DAD.SCOREBOARDS;
   const [picked, setYear] = React.useState(null);

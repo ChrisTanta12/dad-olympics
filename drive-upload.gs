@@ -22,6 +22,14 @@
 //   Paste the new code, save, then Deploy -> Manage deployments -> pencil
 //   icon -> Version: "New version" -> Deploy. Authorise again if asked.
 //
+// SEALED EVENTS:
+//   Type the real lineup straight into the scores sheet, one row per slot:
+//   ID = the slot's numeral (I, II ... IX), Event = the real name, no scores.
+//   Nobody sees an event until it has a score. Only the scorer's phone gets
+//   the unscored ones, and only if it sends the scorer key. Set that key in
+//   Project Settings -> Script properties -> SCORER_KEY. No key set means the
+//   sealed events stay hidden from everyone, the scorer included.
+//
 // Photos land in the folder below, named with a timestamp prefix so
 // they're easy to sort into year folders later.
 
@@ -45,9 +53,10 @@ function json_(obj) {
 function doPost(e) {
   try {
     const body = JSON.parse(e.postData.contents);
-    if (body.action === 'saveEvent') return json_(withLock_(() => saveEvent_(body)));
-    if (body.action === 'deleteEvent') return json_(withLock_(() => deleteEvent_(body.id)));
-    if (body.action === 'addDad') return json_(withLock_(() => addDad_(body.name)));
+    const key = body.key;
+    if (body.action === 'saveEvent') return json_(withLock_(() => saveEvent_(body, key)));
+    if (body.action === 'deleteEvent') return json_(withLock_(() => deleteEvent_(body.id, key)));
+    if (body.action === 'addDad') return json_(withLock_(() => addDad_(body.name, key)));
     return json_(savePhoto_(body));
   } catch (err) {
     return json_({ ok: false, error: String(err) });
@@ -56,7 +65,7 @@ function doPost(e) {
 
 function doGet(e) {
   try {
-    if (e && e.parameter && e.parameter.action === 'scores') return json_(readScores_());
+    if (e && e.parameter && e.parameter.action === 'scores') return json_(readScores_(e.parameter.key));
     return json_({ ok: true, msg: 'Dad Olympics photo drop + scores are live.' });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
@@ -107,7 +116,14 @@ function header_(sh) {
   return header;
 }
 
-function readScores_() {
+function isScorer_(key) {
+  const want = PropertiesService.getScriptProperties().getProperty('SCORER_KEY');
+  return !!want && String(key || '') === want;
+}
+
+// Events with at least one score go to everyone. Unscored rows are the sealed
+// lineup, sent only to the scorer as `upcoming`.
+function readScores_(key) {
   const sh = scoreSheet_();
   const header = header_(sh);
   const dads = header.slice(FIXED_COLS.length);
@@ -124,10 +140,14 @@ function readScores_() {
         return v === '' || v === null || isNaN(Number(v)) ? null : Number(v);
       }),
     }));
-  return { ok: true, competitors: dads, events: events };
+  const scored = (ev) => ev.scores.some((s) => s !== null);
+  const scorer = isScorer_(key);
+  const out = { ok: true, competitors: dads, events: events.filter(scored), scorer: scorer };
+  if (scorer) out.upcoming = events.filter((ev) => !scored(ev));
+  return out;
 }
 
-function addDad_(name) {
+function addDad_(name, key) {
   name = String(name || '').trim().slice(0, 24);
   if (!name) throw new Error('No name');
   const sh = scoreSheet_();
@@ -135,12 +155,13 @@ function addDad_(name) {
   if (header.map((h) => h.toLowerCase()).indexOf(name.toLowerCase()) === -1) {
     sh.getRange(1, header.length + 1).setValue(name).setFontWeight('bold');
   }
-  return readScores_();
+  return readScores_(key);
 }
 
 // The app sends its own event id, so a retry after a dropped connection
 // updates the same row instead of adding a duplicate.
-function saveEvent_(b) {
+// Saving a sealed slot with every score blank puts it back under seal.
+function saveEvent_(b, key) {
   const name = String(b.name || '').trim().slice(0, 60);
   if (!name) throw new Error('Event needs a name');
   const id = String(b.id || ('ev_' + Utilities.getUuid().slice(0, 8)));
@@ -157,14 +178,14 @@ function saveEvent_(b) {
   const found = findRow_(sh, id);
   if (found) sh.getRange(found, 1, 1, row.length).setValues([row]);
   else sh.getRange(sh.getLastRow() + 1, 1, 1, row.length).setValues([row]);
-  return readScores_();
+  return readScores_(key);
 }
 
-function deleteEvent_(id) {
+function deleteEvent_(id, key) {
   const sh = scoreSheet_();
   const found = findRow_(sh, String(id));
   if (found) sh.deleteRow(found);
-  return readScores_();
+  return readScores_(key);
 }
 
 function findRow_(sh, id) {
