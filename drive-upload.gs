@@ -13,7 +13,7 @@
 //      own script writing to your own Drive. It may warn the app is
 //      "unverified"; click Advanced -> Go to <project name>.
 //   5. Copy the Web app URL (ends in /exec) and paste it into
-//      PHOTO_UPLOAD_ENDPOINT in index.html.
+//      ENDPOINT in upload/index.html (the Photo Drop app).
 //
 // Photos land in the folder below, named with a timestamp prefix so
 // they're easy to sort into year folders later.
