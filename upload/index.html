@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="Photo Drop"/>
+  <meta name="apple-mobile-web-app-title" content="Dad Olympics"/>
   <link rel="manifest" href="/upload/manifest.webmanifest"/>
   <link rel="apple-touch-icon" href="/upload/icon-180.png"/>
   <link rel="icon" href="/upload/icon-192.png"/>
@@ -34,6 +34,7 @@
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
 
 html, body {
   margin: 0;
@@ -174,7 +175,88 @@ h1 {
 }
 .foot button[hidden] { display: none; }
 
-/* first-run name sheet */
+/* tabs */
+.tabs {
+  display: grid; grid-template-columns: 1fr 1fr; margin-top: 18px;
+  border: 1px solid var(--line-strong);
+}
+.tabs a {
+  padding: 12px 8px; text-align: center; text-decoration: none;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.tabs a.on { background: var(--gold); color: #0a0a0e; font-weight: 500; }
+section[hidden] { display: none; }
+
+/* scores */
+.board { margin-top: 22px; }
+.board-row {
+  display: grid; grid-template-columns: 34px 1fr auto; align-items: baseline; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--line);
+}
+.board-row .pos { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+.board-row .who { font-family: 'Anton', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.1; }
+.board-row .pts { font-family: 'Anton', sans-serif; font-size: 30px; color: var(--fg); }
+.board-row.lead .who, .board-row.lead .pts { color: var(--gold-bright); }
+.board-row .neg { color: var(--red); }
+
+.meta-line {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+}
+.meta-line button {
+  background: none; border: 0; color: var(--gold); font: inherit; letter-spacing: inherit; text-transform: inherit;
+  padding: 8px 0; cursor: pointer;
+}
+
+.ev-list { margin-top: 22px; display: grid; gap: 8px; }
+.ev {
+  width: 100%; text-align: left; cursor: pointer;
+  background: var(--bg-2); border: 1px solid var(--line); color: var(--fg);
+  padding: 12px 14px; font: inherit;
+}
+.ev .ev-name { font-family: 'Anton', sans-serif; font-size: 20px; text-transform: uppercase; letter-spacing: 0.03em; }
+.ev .ev-note { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-left: 8px; }
+.ev .ev-scores { margin-top: 4px; font-size: 13px; color: var(--fg-dim); }
+.ev .ev-scores b { color: var(--gold-bright); font-weight: 600; }
+
+.editor { margin-top: 20px; padding: 16px; border: 1px solid var(--line-strong); background: var(--bg-2); }
+.editor[hidden] { display: none; }
+.editor h3 {
+  font-family: 'Anton', sans-serif; font-weight: 400; font-size: 26px; text-transform: uppercase; margin: 0 0 12px;
+}
+.field {
+  width: 100%; padding: 14px; font-size: 18px; margin-bottom: 10px;
+  background: var(--bg); color: var(--fg); border: 1px solid var(--line-strong); border-radius: 0;
+  font-family: 'Inter', sans-serif;
+}
+.field.small { font-size: 15px; padding: 11px 14px; }
+.field:focus { outline: 2px solid var(--gold); outline-offset: 0; }
+.dad-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.dad-row .who { font-family: 'Anton', sans-serif; font-size: 22px; text-transform: uppercase; letter-spacing: 0.03em; }
+.stepper { display: grid; grid-template-columns: 48px 60px 48px; }
+.stepper button {
+  height: 48px; background: transparent; border: 1px solid var(--gold); color: var(--gold);
+  font-family: 'Anton', sans-serif; font-size: 26px; cursor: pointer; line-height: 1;
+}
+.stepper button:active { background: var(--gold); color: #0a0a0e; }
+.stepper input {
+  height: 48px; width: 60px; text-align: center; border: 1px solid var(--gold); border-left: 0; border-right: 0; border-radius: 0;
+  background: var(--bg); color: var(--fg); font-family: 'Anton', sans-serif; font-size: 24px;
+}
+.stepper input::placeholder { color: var(--muted); }
+.editor .row-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.editor .big { min-height: 58px; font-size: 22px; }
+.editor .big[disabled] { opacity: 0.6; }
+.link-btn {
+  background: none; border: 0; padding: 12px 0 0; cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold);
+}
+.link-btn.danger { color: var(--red); float: right; }
+.err { margin-top: 10px; color: var(--red); font-size: 14px; }
+.err:empty { display: none; }
+
+/* name sheet */
 .sheet {
   position: fixed; inset: 0; z-index: 10;
   background: rgba(8,8,12,0.94);
@@ -199,12 +281,18 @@ h1 {
 </head>
 <body>
   <div class="eyebrow">Dad Olympics · MMXXVI</div>
-  <h1>Photo<br/>Drop</h1>
-  <div class="shooter">Shooting as <b id="shooterName">–</b><button id="changeName" type="button">change</button></div>
+  <h1 id="heading">Photo<br/>Drop</h1>
+  <div class="shooter" id="shooterLine" hidden>You're <b id="shooterName">–</b><button id="changeName" type="button">change</button></div>
+
+  <nav class="tabs">
+    <a href="#photos" id="tabPhotos" class="on">Photos</a>
+    <a href="#scores" id="tabScores">Scores</a>
+  </nav>
 
   <div class="banner" id="offline" hidden>No signal. Photos are saved on your phone and send when you're back online.</div>
   <div class="banner" id="installHint" hidden></div>
 
+  <section id="photosTab">
   <div class="actions">
     <label class="big">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M3 8h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="13" r="4"/></svg>
@@ -228,6 +316,35 @@ h1 {
 
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty">Nothing sent yet from this phone.</div>
+  </section>
+
+  <section id="scoresTab" hidden>
+    <div class="banner" id="scoresOff" hidden>Scores aren't switched on yet.</div>
+
+    <div class="board" id="board"></div>
+    <div class="meta-line"><span id="scoresUpdated"></span><button type="button" id="refreshScores">Refresh</button></div>
+
+    <div class="actions" id="newEventWrap">
+      <button type="button" class="big" id="newEvent">+ Add event</button>
+    </div>
+
+    <form class="editor" id="editor" hidden>
+      <h3 id="editorTitle">New event</h3>
+      <input class="field" id="evName" maxlength="60" autocapitalize="words" placeholder="Event name" required/>
+      <input class="field small" id="evNote" maxlength="80" placeholder="Note (optional), e.g. team event"/>
+      <div id="dadRows"></div>
+      <button type="button" class="link-btn" id="addDad">+ Add a dad</button>
+      <button type="button" class="link-btn danger" id="deleteEvent" hidden>Delete event</button>
+      <div class="row-actions">
+        <button type="button" class="big ghost" id="cancelEdit">Cancel</button>
+        <button type="submit" class="big" id="saveEvent">Save</button>
+      </div>
+      <div class="err" id="editorErr"></div>
+    </form>
+
+    <div class="ev-list" id="evList"></div>
+    <div class="empty" id="evEmpty" hidden>No events scored yet.</div>
+  </section>
 
   <div class="foot">
     <a href="/">← Dad Olympics site</a>
@@ -236,8 +353,8 @@ h1 {
 
   <div class="sheet" id="nameSheet" hidden>
     <form id="nameForm">
-      <div class="eyebrow">Photo Drop</div>
-      <h2>Who's shooting?</h2>
+      <div class="eyebrow">Dad Olympics</div>
+      <h2 id="nameHeading">Who took these?</h2>
       <input id="nameInput" maxlength="24" autocomplete="nickname" autocapitalize="words" placeholder="Your name" required/>
       <button class="big" type="submit">Let's go</button>
     </form>
@@ -286,14 +403,22 @@ const allPhotos = () => tx('readonly', (s) => s.getAll());
 
 // ---------- shooter name ----------
 
+// Nobody's asked on open. The name question comes after they've picked
+// photos (and before their first score save), and photos wait until it's answered.
 function shooter() { return ls.get('shooter') || ''; }
-function showShooter() { $('shooterName').textContent = shooter() || '–'; }
-function askName() {
+function showShooter() {
+  $('shooterName').textContent = shooter();
+  $('shooterLine').hidden = !shooter();
+}
+let afterName = null;
+function askName(heading, then) {
+  $('nameHeading').textContent = heading || "What's your name?";
   $('nameInput').value = shooter();
+  afterName = then || null;
   $('nameSheet').hidden = false;
   setTimeout(() => $('nameInput').focus(), 50);
 }
-$('changeName').onclick = askName;
+$('changeName').onclick = () => askName("What's your name?");
 $('nameForm').onsubmit = (e) => {
   e.preventDefault();
   const v = $('nameInput').value.trim();
@@ -301,6 +426,10 @@ $('nameForm').onsubmit = (e) => {
   ls.set('shooter', v);
   $('nameSheet').hidden = true;
   showShooter();
+  const then = afterName;
+  afterName = null;
+  pump();
+  if (then) then();
 };
 
 // ---------- image prep ----------
@@ -354,7 +483,7 @@ function fileName(orig, type) {
 async function addFiles(fileList) {
   const files = [...fileList];
   if (!files.length) return;
-  if (!shooter()) askName();
+  if (!shooter()) askName(files.length > 1 ? 'Who took these?' : 'Who took this?');
   for (const f of files) {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     // Show a placeholder straight away so the tap feels instant.
@@ -397,7 +526,7 @@ async function send(rec) {
 }
 
 async function pump() {
-  if (pumping) return;
+  if (pumping || !shooter()) return;
   pumping = true;
   try {
     while (navigator.onLine !== false) {
@@ -520,11 +649,212 @@ setInterval(() => { if ([...photos.values()].some((p) => p.status === 'failed'))
   });
 })();
 
+// ---------- tabs ----------
+
+function showTab() {
+  const scores = location.hash === '#scores';
+  $('photosTab').hidden = scores;
+  $('scoresTab').hidden = !scores;
+  $('clearSent').style.visibility = scores ? 'hidden' : '';
+  $('tabPhotos').classList.toggle('on', !scores);
+  $('tabScores').classList.toggle('on', scores);
+  $('heading').innerHTML = scores ? 'Score<br/>Board' : 'Photo<br/>Drop';
+  if (scores) loadScores();
+}
+addEventListener('hashchange', showTab);
+
+// ---------- scores ----------
+// The scoreboard lives in a Google Sheet behind the same Apps Script.
+// Every save sends the whole event row, keyed by an id made here, so a
+// retry after a dropped connection can't create a duplicate.
+
+let board = null;      // { competitors: [...], events: [{ id, name, note, by, scores: [...] }] }
+let editing = null;    // event being edited, or a fresh one
+let loadingScores = false;
+
+async function scoresCall(body) {
+  const resp = body
+    ? await fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(body) })
+    : await fetch(`${ENDPOINT}?action=scores&t=${Date.now()}`);
+  const j = await resp.json();
+  if (!j.ok) throw new Error(j.error || 'failed');
+  if (!Array.isArray(j.competitors)) throw Object.assign(new Error('off'), { off: true });
+  return j;
+}
+
+async function loadScores() {
+  if (loadingScores) return;
+  loadingScores = true;
+  $('scoresUpdated').textContent = board ? $('scoresUpdated').textContent : 'Loading…';
+  try {
+    board = await scoresCall();
+    $('scoresOff').hidden = true;
+    $('scoresUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    try { localStorage.setItem('board', JSON.stringify(board)); } catch {}
+  } catch (err) {
+    if (err.off) $('scoresOff').hidden = false;
+    else $('scoresUpdated').textContent = board ? 'No signal · showing last scores' : 'No signal';
+  } finally {
+    loadingScores = false;
+    renderScores();
+  }
+}
+
+function totals() {
+  return board.competitors
+    .map((name, i) => ({ name, pts: board.events.reduce((t, ev) => t + (ev.scores[i] ?? 0), 0) }))
+    .sort((a, b) => b.pts - a.pts);
+}
+
+function renderScores() {
+  const on = !!board;
+  $('newEventWrap').hidden = !on || !$('editor').hidden;
+  const boardEl = $('board');
+  boardEl.textContent = '';
+  $('evList').textContent = '';
+  if (!on) return;
+
+  const rows = totals();
+  const top = rows.length ? rows[0].pts : 0;
+  let pos = 0, prev = null;
+  rows.forEach((r, i) => {
+    if (r.pts !== prev) { pos = i + 1; prev = r.pts; }
+    const el = document.createElement('div');
+    el.className = 'board-row' + (board.events.length && r.pts === top ? ' lead' : '');
+    el.innerHTML = '<span class="pos"></span><span class="who"></span><span class="pts"></span>';
+    el.children[0].textContent = board.events.length ? ordinal(pos) : '';
+    el.children[1].textContent = r.name;
+    el.children[2].textContent = r.pts;
+    if (r.pts < 0) el.children[2].classList.add('neg');
+    boardEl.appendChild(el);
+  });
+
+  $('evEmpty').hidden = board.events.length > 0;
+  [...board.events].reverse().forEach((ev) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'ev';
+    const best = Math.max(...ev.scores.filter((s) => s != null));
+    b.innerHTML = '<div><span class="ev-name"></span><span class="ev-note"></span></div><div class="ev-scores"></div>';
+    b.querySelector('.ev-name').textContent = ev.name;
+    b.querySelector('.ev-note').textContent = ev.note;
+    const sc = b.querySelector('.ev-scores');
+    board.competitors.forEach((name, i) => {
+      if (ev.scores[i] == null) return;
+      if (sc.childNodes.length) sc.append(' · ');
+      const part = document.createElement(ev.scores[i] === best ? 'b' : 'span');
+      part.textContent = `${name} ${ev.scores[i]}`;
+      sc.appendChild(part);
+    });
+    b.onclick = () => openEditor(ev);
+    $('evList').appendChild(b);
+  });
+}
+
+const ordinal = (n) => n + (['th', 'st', 'nd', 'rd'][(n % 100 - 20) % 10] || ['th', 'st', 'nd', 'rd'][n % 100] || 'th');
+
+function openEditor(ev) {
+  editing = ev
+    ? { ...ev, scores: [...ev.scores] }
+    : { id: `ev_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, name: '', note: '', scores: board.competitors.map(() => null), isNew: true };
+  $('editorTitle').textContent = editing.isNew ? 'New event' : 'Edit event';
+  $('evName').value = editing.name;
+  $('evNote').value = editing.note;
+  $('deleteEvent').hidden = !!editing.isNew;
+  $('editorErr').textContent = '';
+  drawDadRows();
+  $('editor').hidden = false;
+  $('newEventWrap').hidden = true;
+  $('editor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (editing.isNew) setTimeout(() => $('evName').focus(), 300);
+}
+
+function closeEditor() {
+  editing = null;
+  $('editor').hidden = true;
+  renderScores();
+}
+
+function drawDadRows() {
+  const wrap = $('dadRows');
+  wrap.textContent = '';
+  board.competitors.forEach((name, i) => {
+    const row = document.createElement('div');
+    row.className = 'dad-row';
+    row.innerHTML = '<span class="who"></span><span class="stepper"><button type="button" aria-label="Less">−</button><input inputmode="numeric" placeholder="–"/><button type="button" aria-label="More">+</button></span>';
+    row.querySelector('.who').textContent = name;
+    const [minus, plus] = row.querySelectorAll('button');
+    const input = row.querySelector('input');
+    input.setAttribute('aria-label', `${name} points`);
+    const show = () => { input.value = editing.scores[i] == null ? '' : editing.scores[i]; };
+    minus.onclick = () => { editing.scores[i] = editing.scores[i] == null ? 0 : editing.scores[i] - 1; show(); };
+    plus.onclick = () => { editing.scores[i] = editing.scores[i] == null ? 1 : editing.scores[i] + 1; show(); };
+    input.oninput = () => {
+      const v = input.value.trim();
+      editing.scores[i] = v === '' || v === '-' || isNaN(Number(v)) ? null : Math.round(Number(v));
+    };
+    show();
+    wrap.appendChild(row);
+  });
+}
+
+async function saveEditor(e) {
+  e.preventDefault();
+  if (!shooter()) return askName("Who's scoring?", () => $('editor').requestSubmit());
+  editing.name = $('evName').value.trim();
+  editing.note = $('evNote').value.trim();
+  if (!editing.name) { $('editorErr').textContent = 'Give the event a name.'; return; }
+  if (editing.scores.every((s) => s == null)) { $('editorErr').textContent = 'Put in at least one score.'; return; }
+  const scores = {};
+  board.competitors.forEach((name, i) => { scores[name] = editing.scores[i]; });
+  await busy($('saveEvent'), 'Saving…', async () => {
+    board = await scoresCall({ action: 'saveEvent', id: editing.id, name: editing.name, note: editing.note, by: shooter(), scores });
+    closeEditor();
+  });
+}
+
+async function busy(btn, label, fn) {
+  const was = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = label;
+  $('editorErr').textContent = '';
+  try { await fn(); }
+  catch { $('editorErr').textContent = "Didn't save. Check your signal and try again."; }
+  finally { btn.disabled = false; btn.textContent = was; }
+}
+
+$('editor').onsubmit = saveEditor;
+$('newEvent').onclick = () => openEditor(null);
+$('cancelEdit').onclick = closeEditor;
+$('refreshScores').onclick = loadScores;
+$('deleteEvent').onclick = async () => {
+  if (!confirm(`Delete ${editing.name || 'this event'}?`)) return;
+  await busy($('deleteEvent'), 'Deleting…', async () => {
+    board = await scoresCall({ action: 'deleteEvent', id: editing.id });
+    closeEditor();
+  });
+};
+$('addDad').onclick = async () => {
+  const name = (prompt("New dad's name") || '').trim();
+  if (!name) return;
+  await busy($('addDad'), 'Adding…', async () => {
+    const next = await scoresCall({ action: 'addDad', name });
+    // Keep what's been typed so far; the new dad starts blank.
+    const typed = Object.fromEntries(board.competitors.map((n, i) => [n, editing.scores[i]]));
+    board = next;
+    editing.scores = board.competitors.map((n) => typed[n] ?? null);
+    drawDadRows();
+  });
+};
+
+// Show the last scores straight away, then refresh. Keep it fresh while it's open.
+try { board = JSON.parse(localStorage.getItem('board')) || null; } catch {}
+setInterval(() => { if (!document.hidden && location.hash === '#scores' && !editing) loadScores(); }, 30000);
+
 // ---------- boot ----------
 
 (async function boot() {
   showShooter();
-  if (!shooter()) askName();
   try {
     db = await openDb();
     for (const p of await allPhotos()) {
@@ -539,7 +869,10 @@ setInterval(() => { if ([...photos.values()].some((p) => p.status === 'failed'))
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('/upload/sw.js', { scope: '/upload/' }).catch(() => {});
   netState();
   render();
+  // Photos picked last time but never named: ask now so they can go.
+  if (!shooter() && [...photos.values()].some((p) => p.status === 'waiting')) askName('Who took these?');
   pump();
+  showTab();
 })();
 </script>
 </body>

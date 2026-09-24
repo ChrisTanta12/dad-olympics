@@ -1,7 +1,7 @@
 // Photo Drop service worker: keeps the app shell cached so it opens
 // with no signal at the pub. Uploads themselves are queued in IndexedDB
 // by the page and retried when the phone is back online.
-const CACHE = 'photo-drop-v1';
+const CACHE = 'photo-drop-v2';
 const SHELL = [
   '/upload/',
   '/upload/manifest.webmanifest',
