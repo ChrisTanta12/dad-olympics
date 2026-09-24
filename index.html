@@ -1080,8 +1080,6 @@ const EVENTS = [
     blurb: 'Late slot. Previous years: lawn darts, karaoke, the piñata we agreed not to talk about.' },
   { num: 'VIII', name: 'HUNGOVER?',       discipline: 'Still Sealed',   day: 'Sun AM',  time: '10:52', classified: true,
     blurb: 'Sunday morning, straight after Saturday night. Do the maths. And 10:52 means 10:52 — clocks go forward overnight.' },
-  { num: 'IX',   name: 'THE DECIDER',     discipline: 'Still Sealed',   day: 'Sun PM',  time: '16:30', classified: true,
-    blurb: "Tradition says it always involves running. Tradition has been wrong before." },
 ];
 
 const HISTORY = [
@@ -1473,7 +1471,7 @@ const Landing = ({ onEnter, heroLayout, headlineFont, goldHue }) => {
         margin: 0,
         textWrap: 'pretty',
       }}>
-        It's on again. Nine events, three days, one shield.
+        It's on again. Eight events, three days, one shield.
         <span style={{color:'var(--fg)'}}> Brownie's got it. Go and take it off him.</span>
       </p>
       <div style={{display:'flex', marginTop: 8}}>
@@ -2040,7 +2038,7 @@ const Home = ({ onNavigate }) => {
                 <span style={{color:'var(--gold)'}}>EDITION</span>
               </div>
               <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 540, margin: 0, textWrap:'pretty'}}>
-                Nine events. Three days. Four blokes, one shield.
+                Eight events. Three days. Four blokes, one shield.
                 Brownie's going for four in a row. Surely not.
               </p>
               <div style={{display:'flex', gap: 12}}>
@@ -2084,7 +2082,7 @@ const Home = ({ onNavigate }) => {
           <div>
             <div className="eyebrow">THE EVENTS</div>
             <div className="display" style={{fontSize: 'clamp(48px, 6vw, 88px)', marginTop: 8}}>
-              NINE EVENTS.<br/>ONE SHIELD.
+              EIGHT EVENTS.<br/>ONE SHIELD.
             </div>
           </div>
           <button className="btn btn-ghost" onClick={() => onNavigate('events')}>
@@ -2141,7 +2139,6 @@ const Events = ({ onNavigate }) => {
     { id: 'Sat PM',   label: 'SATURDAY · 26 SEPT', sub: 'AFTERNOON' },
     { id: 'Sat Late', label: 'SATURDAY · 26 SEPT', sub: 'NIGHT' },
     { id: 'Sun AM',   label: 'SUNDAY · 27 SEPT', sub: 'MORNING' },
-    { id: 'Sun PM',   label: 'SUNDAY · 27 SEPT', sub: 'AFTERNOON' },
   ];
 
   return (
@@ -2153,7 +2150,7 @@ const Events = ({ onNavigate }) => {
             THE <span style={{color:'var(--gold)'}}>SCHEDULE</span>.
           </div>
           <p style={{fontSize: 18, color: 'var(--fg-dim)', maxWidth: 640, marginTop: 16, textWrap:'pretty'}}>
-            Nine events over three days, and every one of them is sealed —
+            Eight events over three days, and every one of them is sealed —
             venue, events, rules, all of it. You'll know when you're standing in front of it.
           </p>
         </div>
